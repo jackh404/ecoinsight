@@ -17,8 +17,6 @@ user_recomendations = db.Table(
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ('-password',)
-
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -29,21 +27,26 @@ class User(db.Model, SerializerMixin):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
     
-    projects = db.relationship('Project', back_populates='user')
+    projects = db.relationship('Project', back_populates='user', cascade="all, delete-orphan")
     recommendations = db.relationship('Recommendation', secondary=user_recomendations, back_populates='users')
-    energy_assessments = db.relationship('EnergyAssessment', back_populates='user')
+    energy_assessments = db.relationship('EnergyAssessment', back_populates='user', cascade="all, delete-orphan")
+    
+    serialize_rules = ('-password','-projects.user','-energy_assessments.user','-recommendations.users',)
     
 class Project(db.Model, SerializerMixin):
     __tablename__ = 'projects'
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
+    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'), nullable=False)
     name = db.Column(db.String(80), unique=True, nullable=False)
     goals = db.Column(db.Text, nullable=False)
     description = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     
     user = db.relationship('User', back_populates='projects')
-    project_updates = db.relationship('ProjectUpdate', back_populates='project')
+    project_updates = db.relationship('ProjectUpdate', back_populates='project', cascade="all, delete-orphan")
+    
+    serialize_rules = ('-user.projects','-project_updates.project',)
     
 class ProjectUpdate(db.Model, SerializerMixin):
     __tablename__ = 'project_updates'
@@ -54,6 +57,8 @@ class ProjectUpdate(db.Model, SerializerMixin):
     text = db.Column(db.Text, nullable=False)
     
     project = db.relationship('Project', back_populates='project_updates')
+    
+    serialize_rules = ('-project.project_updates',)
     
 class Recommendation(db.Model, SerializerMixin):
     __tablename__ = 'recommendations'
@@ -66,6 +71,8 @@ class Recommendation(db.Model, SerializerMixin):
     impact_level = db.Column(db.Integer, nullable=False)
     
     users = db.relationship('User', secondary=user_recomendations, back_populates='recommendations')
+    
+    serialize_rules = ('-users.recommendations',)
     
 class EnergyAssessment(db.Model, SerializerMixin):
     __tablename__ = 'energy_assessments'
@@ -102,11 +109,13 @@ class EnergyAssessment(db.Model, SerializerMixin):
     
     user = db.relationship('User', back_populates='energy_assessments')
     
+    serialize_rules = ('-user.energy_assessments','-projects')
+    
 class EnergyAssessmentQuestions (db.Model, SerializerMixin):
     __tablename__ = 'energy_assessment_questions'
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
     short = db.Column(db.String, nullable=False)
     full = db.Column(db.String, nullable=False)
-    options = db.Column(db.Array(db.String))
+    options = db.Column(db.ARRAY(db.String))
     

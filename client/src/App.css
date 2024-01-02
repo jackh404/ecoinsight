@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-:root{
-    transition: all 0.5s;
+@font-face {
+  font-family: "Nunito";
+  src: url("/fonts/Nunito-VariableFont_wght.ttf");
+}
+@font-face {
+  font-family: "Nunito Italic";
+  src: url("/fonts/Nunito-Italic-VariableFont_wght.ttf");
+}
+@font-face {
+  font-family: "Opens Sans";
+  src: url("/fonts/OpenSans-VariableFont_wdth,wght.ttf");
+}
+@font-face {
+  font-family: "Opens Sans Italic";
+  src: url("/fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf");
+}
+
+* {
+  transition: background-color 0.5s;
+  font-family: "Nunito", sans-serif;
 }
