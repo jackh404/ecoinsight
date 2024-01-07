@@ -26,6 +26,14 @@ class UserById(Resource):
             return make_response(user.to_dict(), 200)
         return make_response({"message": "User not found"}, 404)
     
+    def delete(self, id):
+        user = User.query.get(id)
+        if user:
+            db.session.delete(user)
+            db.session.commit()
+            return make_response({"message": "User deleted"}, 204)
+        return make_response({"message": "User not found"}, 404)
+    
 class Users(Resource):
     def get(self):
         users = User.query.all()

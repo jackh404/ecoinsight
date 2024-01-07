@@ -46,7 +46,7 @@ class Project(db.Model, SerializerMixin):
     user = db.relationship('User', back_populates='projects')
     project_updates = db.relationship('ProjectUpdate', back_populates='project', cascade="all, delete-orphan")
     
-    serialize_rules = ('-user.projects','-project_updates.project',)
+    serialize_rules = ('-user.projects','-project_updates.project','-energy_assessments','-recommendations',)
     
 class ProjectUpdate(db.Model, SerializerMixin):
     __tablename__ = 'project_updates'
@@ -58,7 +58,7 @@ class ProjectUpdate(db.Model, SerializerMixin):
     
     project = db.relationship('Project', back_populates='project_updates')
     
-    serialize_rules = ('-project.project_updates',)
+    serialize_rules = ('-project.project_updates','-users')
     
 class Recommendation(db.Model, SerializerMixin):
     __tablename__ = 'recommendations'
@@ -67,12 +67,13 @@ class Recommendation(db.Model, SerializerMixin):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     text = db.Column(db.Text, nullable=False)
     assessment = db.Column(db.String, nullable=False)
-    question = db.Column(db.String, nullable=False)
+    question_id = db.Column(UUID(as_uuid=True), db.ForeignKey('energy_assessment_questions.id'), nullable=False)
     impact_level = db.Column(db.Integer, nullable=False)
     
     users = db.relationship('User', secondary=user_recomendations, back_populates='recommendations')
+    question = db.relationship('EnergyAssessmentQuestions', back_populates='recommendation')
     
-    serialize_rules = ('-users.recommendations',)
+    serialize_rules = ('-users.recommendations','-question.recommendation','-projects','-energy_assessments')
     
 class EnergyAssessment(db.Model, SerializerMixin):
     __tablename__ = 'energy_assessments'
@@ -117,5 +118,9 @@ class EnergyAssessmentQuestions (db.Model, SerializerMixin):
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
     short = db.Column(db.String, nullable=False)
     full = db.Column(db.String, nullable=False)
-    options = db.Column(db.ARRAY(db.String))
+    type = db.Column(db.String, nullable=False)
+    options = db.Column(db.ARRAY(db.String), nullable = True)
     
+    recommendation = db.relationship('Recommendation', back_populates='question')
+        
+    serialize_rules = ('-recommendation.question','-users')
