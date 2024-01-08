@@ -7,6 +7,7 @@ from flask_migrate import Migrate
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
+from flask_bcrypt import Bcrypt
 
 load_dotenv()
 
@@ -39,3 +40,4 @@ migrate = Migrate(app, db, render_as_batch=True)
 
 db.init_app(app)
 api = Api(app)
+bcrypt = Bcrypt(app)

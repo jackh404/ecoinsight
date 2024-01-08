@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 from config import db, migrate, app, api, cors
 from models import User, Project, ProjectUpdate, Recommendation, EnergyAssessment, user_recomendations
+
 load_dotenv()
 
 @app.route("/")

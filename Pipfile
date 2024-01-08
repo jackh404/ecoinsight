@@ -15,6 +15,7 @@ sqlalchemy-serializer = "*"
 psycopg2-binary = "*"
 Werkzeug = "*"
 flask-migrate = "*"
+flask-bcrypt = "*"
 [dev-packages]
 
 [requires]
