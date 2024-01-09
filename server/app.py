@@ -2,7 +2,7 @@ from flask import request, make_response, session
 from flask_restful import Resource
 import os
 from dotenv import load_dotenv
-from config import db, migrate, app, api, cors
+from config import db, migrate, app, api
 from models import User, Project, ProjectUpdate, Recommendation, EnergyAssessment, user_recomendations
 
 load_dotenv()
