@@ -1,4 +1,4 @@
-from flask import request, make_response, session
+from flask import request, make_response, session, render_template
 from flask_restful import Resource
 import os
 from dotenv import load_dotenv
@@ -7,9 +7,9 @@ from models import User, Project, ProjectUpdate, Recommendation, EnergyAssessmen
 
 load_dotenv()
 
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 class Signup(Resource):
     def post(self):
