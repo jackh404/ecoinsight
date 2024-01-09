@@ -7,7 +7,7 @@ const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useAuth()!;
-  const server = import.meta.env.VITE_BACK_END_SERVE;
+  // const server = import.meta.env.VITE_BACK_END_SERVE;
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
