@@ -11,15 +11,19 @@ from flask_bcrypt import Bcrypt
 
 load_dotenv()
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_url_path='',
+    static_folder='../client/dist',
+    template_folder='../client/dist')
 
-cors = CORS(app, supports_credentials=True, resources={
-    r"/*": {
-       "origins": ["http://127.0.0.1:5174"],
-       "methods": ["GET", "POST", "PATCH", "PUT", "DELETE"],
-       "allow_headers": ["Content-Type", "Authorization"]
-    }
-})
+# cors = CORS(app, supports_credentials=True, resources={
+#     r"/*": {
+#        "origins": ["http://127.0.0.1:5174"],
+#        "methods": ["GET", "POST", "PATCH", "PUT", "DELETE"],
+#        "allow_headers": ["Content-Type", "Authorization"]
+#     }
+# })
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SUPABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

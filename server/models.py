@@ -23,7 +23,7 @@ class User(db.Model, SerializerMixin):
     first_name = db.Column(db.String(80), nullable=False)
     last_name = db.Column(db.String(80), nullable=False)
     display_name = db.Column(db.String(80), nullable=False)
-    _password_hash = db.Column(db.String(255), nullable=False)
+    _password_hash = db.Column(db.String(), nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
     
@@ -53,7 +53,7 @@ class Project(db.Model, SerializerMixin):
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
     user_id = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'), nullable=False)
-    name = db.Column(db.String(80), unique=True, nullable=False)
+    name = db.Column(db.String, unique=True, nullable=False)
     goals = db.Column(db.Text, nullable=False)
     description = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
@@ -62,6 +62,12 @@ class Project(db.Model, SerializerMixin):
     project_updates = db.relationship('ProjectUpdate', back_populates='project', cascade="all, delete-orphan")
     
     serialize_rules = ('-user.projects','-project_updates.project','-energy_assessments','-recommendations',)
+    
+    @validates('name')
+    def validates_name(self, key, name):
+        if not isinstance(name, str) or len(name) < 3:
+            raise ValueError('Name must be a string longer than 3 characters')
+        return name
     
 class ProjectUpdate(db.Model, SerializerMixin):
     __tablename__ = 'project_updates'

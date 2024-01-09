@@ -1,3 +1,21 @@
+import { NavLink } from "react-router-dom";
+const guestMenu = (mainUlClass: string) => {
+  return (
+    <ul className={mainUlClass} tabIndex={0}>
+      <li>
+        <a>Item 1</a>
+      </li>
+      <li>
+        <a>Item 2</a>
+      </li>
+      <li>
+        <a>
+          <NavLink to="/login">Login</NavLink>
+        </a>
+      </li>
+    </ul>
+  );
+};
 const NavBar = () => {
   return (
     <div className="navbar bg-neutral text-neutral-content">
@@ -19,28 +37,9 @@ const NavBar = () => {
               />
             </svg>
           </div>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-secondary text-secondary-content rounded-box w-52"
-          >
-            <li>
-              <a>Item 1</a>
-            </li>
-            <li>
-              <a>Parent</a>
-              <ul className="p-2">
-                <li>
-                  <a>Submenu 1</a>
-                </li>
-                <li>
-                  <a>Submenu 2</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a>Item 3</a>
-            </li>
-          </ul>
+          {guestMenu(
+            "menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-secondary text-secondary-content rounded-box w-52"
+          )}
         </div>
         <img
           src="/images/logo.png"
@@ -53,27 +52,7 @@ const NavBar = () => {
         </h3>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
-          <li>
-            <a>Item 1</a>
-          </li>
-          <li>
-            <details>
-              <summary>Parent</summary>
-              <ul className="p-2 bg-secondary text-secondary-content z-10">
-                <li>
-                  <a>Submenu 1</a>
-                </li>
-                <li>
-                  <a>Submenu 2</a>
-                </li>
-              </ul>
-            </details>
-          </li>
-          <li>
-            <a>Item 3</a>
-          </li>
-        </ul>
+        {guestMenu("menu menu-horizontal px-1")}
       </div>
       <div className="navbar-end">
         {/* Dark Mode Toggle */}

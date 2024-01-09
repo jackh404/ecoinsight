@@ -1,4 +1,4 @@
-from flask import request, make_response
+from flask import request, make_response, session
 from flask_restful import Resource
 import os
 from dotenv import load_dotenv
@@ -10,6 +10,57 @@ load_dotenv()
 @app.route("/")
 def hello_world():
     return "<p>Hello, World!</p>"
+
+class Signup(Resource):
+    def post(self):
+        json = request.json
+        try:
+            user = User(
+                username = json['username'],
+                email = json['email'],
+                first_name = json['first_name'],
+                last_name = json['last_name'],
+                display_name = json['display_name'])
+            user.password_hash = json['password']
+            db.session.add(user)
+            db.session.commit()
+            session['user_id'] = user.id
+            return make_response(user.to_dict(), 201)
+        except ValueError as ve:
+            db.session.rollback()
+            return make_response({"message": str(ve)}, 422)
+        except Exception as e:
+            return make_response({"message": str(e)}, 500)
+api.add_resource(Signup, '/signup')
+        
+class CheckSession(Resource):
+    def get(self):
+        if session.get('user_id'):
+            user = User.query.filter(User.id == session['user_id']).first()
+            return user.to_dict(), 200
+        return {}, 204
+api.add_resource(CheckSession, '/check_session')
+    
+class Login(Resource):
+    def post(self):
+        json = request.get_json()
+        user = User.query.filter(User.username == json['username']).first()
+        if user:
+            if user.authenticate(json['password']):
+                session['user_id'] = user.id
+                return user.to_dict(), 200
+        else:
+            return {"message":"Incorrect username or password"}, 401
+api.add_resource(Login, '/login')
+        
+class Logout(Resource):
+    def delete(self):
+            if session['user_id']:
+                session['user_id'] = None
+                return {}, 204
+            else:
+                return {'message': 'Unauthorized'}, 401
+api.add_resource(Logout, '/logout')
 
 class UserById(Resource):
     def get(self, id):
@@ -34,7 +85,8 @@ class UserById(Resource):
             db.session.commit()
             return make_response({"message": "User deleted"}, 204)
         return make_response({"message": "User not found"}, 404)
-    
+api.add_resource(UserById, '/users/<int:id>')
+
 class Users(Resource):
     def get(self):
         users = User.query.all()
@@ -45,6 +97,7 @@ class Users(Resource):
         db.session.add(user)
         db.session.commit()
         return make_response(user.to_dict(), 201)
+api.add_resource(Users, '/users')
     
 class Projects(Resource):
     def get(self):
@@ -56,6 +109,7 @@ class Projects(Resource):
         db.session.add(project)
         db.session.commit()
         return make_response(project.to_dict(), 201)
+api.add_resource(Projects, '/projects')
     
 class ProjectById(Resource):
     def get(self, id):
@@ -71,26 +125,23 @@ class ProjectById(Resource):
             db.session.commit()
             return make_response({"message": "Project deleted"}, 204)
         return make_response({"message": "Project not found"}, 404)
+api.add_resource(ProjectById, '/projects/<int:id>')
     
 class Recommendations(Resource):
     def get(self):
         recommendations = Recommendation.query.all()
         return make_response([recommendation.to_dict() for recommendation in recommendations], 200)
+api.add_resource(Recommendations, '/recommendations')
     
 class EnergyAssessmentQuestions(Resource):
     def get(self):
         questions = EnergyAssessmentQuestions.query.all()
         return make_response([question.to_dict() for question in questions], 200)
-    
-api.add_resource(UserById, '/users/<int:id>')
-api.add_resource(Users, '/users')
-api.add_resource(ProjectById, '/projects/<int:id>')
-api.add_resource(Projects, '/projects')
-api.add_resource(Recommendations, '/recommendations')
 api.add_resource(EnergyAssessmentQuestions, '/energy_assessment_questions')
 
-port = os.getenv('SERVER_PORT')
+    
+
 debug = os.getenv('SERVER_DEBUG')
-host = os.getenv('SERVER_HOST')
+
 if __name__ == '__main__':
-    app.run(host = host, port = port, debug = debug)
+    app.run(port=5555, debug = debug)
