@@ -2,6 +2,7 @@ from flask import request, make_response, session, render_template
 from flask_restful import Resource
 import os
 from dotenv import load_dotenv
+from sqlalchemy.exc import IntegrityError
 from config import db, migrate, app, api
 from models import User, Project, ProjectUpdate, Recommendation, EnergyAssessment, user_recomendations
 
@@ -29,7 +30,11 @@ class Signup(Resource):
         except ValueError as ve:
             db.session.rollback()
             return make_response({"message": str(ve)}, 422)
+        except IntegrityError as ie:
+            db.session.rollback()
+            return make_response({"message": str(ie)}, 422)
         except Exception as e:
+            db.session.rollback()
             return make_response({"message": str(e)}, 500)
 api.add_resource(Signup, '/signup')
         
@@ -39,7 +44,7 @@ class CheckSession(Resource):
             user = User.query.filter(User.id == session['user_id']).first()
             return user.to_dict(), 200
         return {}, 204
-api.add_resource(CheckSession, '/check_session')
+api.add_resource(CheckSession, '/api/check_session')
     
 class Login(Resource):
     def post(self):
@@ -51,7 +56,7 @@ class Login(Resource):
                 return user.to_dict(), 200
         else:
             return {"message":"Incorrect username or password"}, 401
-api.add_resource(Login, '/login')
+api.add_resource(Login, '/api/login')
         
 class Logout(Resource):
     def delete(self):
@@ -60,7 +65,7 @@ class Logout(Resource):
                 return {}, 204
             else:
                 return {'message': 'Unauthorized'}, 401
-api.add_resource(Logout, '/logout')
+api.add_resource(Logout, '/api/logout')
 
 class UserById(Resource):
     def get(self, id):
@@ -85,7 +90,7 @@ class UserById(Resource):
             db.session.commit()
             return make_response({"message": "User deleted"}, 204)
         return make_response({"message": "User not found"}, 404)
-api.add_resource(UserById, '/users/<int:id>')
+api.add_resource(UserById, '/api/users/<int:id>')
 
 class Users(Resource):
     def get(self):
@@ -109,7 +114,7 @@ class Projects(Resource):
         db.session.add(project)
         db.session.commit()
         return make_response(project.to_dict(), 201)
-api.add_resource(Projects, '/projects')
+api.add_resource(Projects, '/api/projects')
     
 class ProjectById(Resource):
     def get(self, id):
@@ -125,19 +130,19 @@ class ProjectById(Resource):
             db.session.commit()
             return make_response({"message": "Project deleted"}, 204)
         return make_response({"message": "Project not found"}, 404)
-api.add_resource(ProjectById, '/projects/<int:id>')
+api.add_resource(ProjectById, '/api/projects/<int:id>')
     
 class Recommendations(Resource):
     def get(self):
         recommendations = Recommendation.query.all()
         return make_response([recommendation.to_dict() for recommendation in recommendations], 200)
-api.add_resource(Recommendations, '/recommendations')
+api.add_resource(Recommendations, '/api/recommendations')
     
 class EnergyAssessmentQuestions(Resource):
     def get(self):
         questions = EnergyAssessmentQuestions.query.all()
         return make_response([question.to_dict() for question in questions], 200)
-api.add_resource(EnergyAssessmentQuestions, '/energy_assessment_questions')
+api.add_resource(EnergyAssessmentQuestions, '/api/energy_assessment_questions')
 
     
 

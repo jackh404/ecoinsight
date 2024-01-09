@@ -31,7 +31,7 @@ class User(db.Model, SerializerMixin):
     recommendations = db.relationship('Recommendation', secondary=user_recomendations, back_populates='users')
     energy_assessments = db.relationship('EnergyAssessment', back_populates='user', cascade="all, delete-orphan")
     
-    serialize_rules = ('-password','-projects.user','-energy_assessments.user','-recommendations.users',)
+    serialize_rules = ('-_password_hash','-projects.user','-energy_assessments.user','-recommendations.users',)
     
     def __repr__(self) -> str:
         return f"<User {self.username}>"

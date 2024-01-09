@@ -6,7 +6,9 @@ const guestMenu = (mainUlClass: string) => {
         <a>Item 1</a>
       </li>
       <li>
-        <a>Item 2</a>
+        <a>
+          <NavLink to="/signup">Signup</NavLink>
+        </a>
       </li>
       <li>
         <a>

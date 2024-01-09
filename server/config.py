@@ -17,6 +17,8 @@ app = Flask(
     static_folder='../client/dist',
     template_folder='../client/dist')
 
+app.secret_key = os.getenv('SECRET_KEY')
+
 # cors = CORS(app, supports_credentials=True, resources={
 #     r"/*": {
 #        "origins": ["http://127.0.0.1:5174"],
