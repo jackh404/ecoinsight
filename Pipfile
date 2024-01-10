@@ -18,6 +18,8 @@ honcho = "*"
 Werkzeug = "*"
 flask-migrate = "*"
 flask-bcrypt = "*"
+pyjwt = "*"
+
 [dev-packages]
 
 [requires]

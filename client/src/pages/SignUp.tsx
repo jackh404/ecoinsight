@@ -34,7 +34,7 @@ const SignupPage: React.FC = () => {
     try {
       console.log("Submitting form data:", formData);
       const response = await axios.post("/api/signup", formData);
-      login(response.data.token, response.data.user);
+      login(response.data.user);
     } catch (error) {
       console.error(error);
     }

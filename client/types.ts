@@ -5,7 +5,17 @@ type question = {
   type: string;
   options: string[];
 };
+type User = {
+  id: string;
+  username: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  display_name: string;
+  created_at: string;
+  updated_at: string;
+};
 interface formData {
   [key: string]: string | number;
 }
-export type { question, formData };
+export type { question, formData, User };

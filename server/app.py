@@ -3,10 +3,15 @@ from flask_restful import Resource
 import os
 from dotenv import load_dotenv
 from sqlalchemy.exc import IntegrityError
+import jwt
+import datetime
+
 from config import db, migrate, app, api
 from models import User, Project, ProjectUpdate, Recommendation, EnergyAssessment, user_recomendations
 
 load_dotenv()
+
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 @app.route('/')
 def index():
@@ -26,7 +31,14 @@ class Signup(Resource):
             db.session.add(user)
             db.session.commit()
             session['user_id'] = user.id
-            return make_response(user.to_dict(), 201)
+            token = jwt.encode({
+                    'user_id': user.id,
+                    'exp': datetime.utcnow() + datetime.timedelta(hours=24)
+                }, os.environ.get('SECRET_KEY'), algorithm="HS256")
+            resp = make_response({'user':user.to_dict(),
+                                    'message': 'Login successful'}, 200)
+            resp.set_cookie('jwt', token, httponly=True)
+            return resp
         except ValueError as ve:
             db.session.rollback()
             return make_response({"message": str(ve)}, 422)
@@ -40,10 +52,18 @@ api.add_resource(Signup, '/signup')
         
 class CheckSession(Resource):
     def get(self):
-        if session.get('user_id'):
-            user = User.query.filter(User.id == session['user_id']).first()
-            return user.to_dict(), 200
-        return {}, 204
+        token = request.cookies.get('jwt')
+        if not token:
+            return {'message': 'No Active Session'}, 204
+        try:
+            data = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        except jwt.ExpiredSignatureError:
+            return {'message': 'Token Expired'}, 401
+        except jwt.InvalidTokenError:
+            return {'message': 'Invalid Token'}, 401
+        user = User.query.get(data['user_id'])
+        if user:
+            return {'user': user.to_dict()}, 200
 api.add_resource(CheckSession, '/api/check_session')
     
 class Login(Resource):
@@ -52,19 +72,25 @@ class Login(Resource):
         user = User.query.filter(User.username == json['username']).first()
         if user:
             if user.authenticate(json['password']):
-                session['user_id'] = user.id
-                return user.to_dict(), 200
+                token = jwt.encode({
+                    'user_id': str(user.id),
+                    'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)}, 
+                    SECRET_KEY,
+                    algorithm="HS256")
+                print(token)
+                resp = make_response({'user':user.to_dict(),
+                                      'message': 'Login successful'}, 200)
+                resp.set_cookie('jwt', token, httponly=True)
+                return resp
         else:
             return {"message":"Incorrect username or password"}, 401
 api.add_resource(Login, '/api/login')
         
 class Logout(Resource):
     def delete(self):
-            if session['user_id']:
-                session['user_id'] = None
-                return {}, 204
-            else:
-                return {'message': 'Unauthorized'}, 401
+        resp = make_response({'message': 'Logout successful'}, 200)
+        resp.set_cookie('jwt', '', expires=0)
+        return resp
 api.add_resource(Logout, '/api/logout')
 
 class UserById(Resource):

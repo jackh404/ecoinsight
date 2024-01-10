@@ -1,24 +1,51 @@
-import { NavLink } from "react-router-dom";
-const guestMenu = (mainUlClass: string) => {
-  return (
-    <ul className={mainUlClass} tabIndex={0}>
-      <li>
-        <a>Item 1</a>
-      </li>
-      <li>
-        <a>
-          <NavLink to="/signup">Signup</NavLink>
-        </a>
-      </li>
-      <li>
-        <a>
-          <NavLink to="/login">Login</NavLink>
-        </a>
-      </li>
-    </ul>
-  );
-};
+import { NavLink, Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext.tsx";
+
 const NavBar = () => {
+  const auth = useAuth();
+  const logout = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    try {
+      if (auth && auth.logout) {
+        auth.logout();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const guestMenu = (mainUlClass: string) => {
+    return (
+      <ul className={mainUlClass} tabIndex={0}>
+        <li>
+          <NavLink to="/">Home</NavLink>
+        </li>
+        <li>
+          <NavLink to="/signup">Signup</NavLink>
+        </li>
+        <li>
+          <NavLink to="/login">Login</NavLink>
+        </li>
+      </ul>
+    );
+  };
+  const authMenu = (mainUlClass: string) => {
+    return (
+      <ul className={mainUlClass} tabIndex={0}>
+        <li>
+          <NavLink to="/">Home</NavLink>
+        </li>
+        <li>
+          <NavLink to="/dashboard">Dashboard</NavLink>
+        </li>
+        <li>
+          <NavLink to={"/energy-assessment"}>Energy Assessment</NavLink>
+        </li>
+        <li>
+          <a onClick={e => logout(e)}>Logout</a>
+        </li>
+      </ul>
+    );
+  };
   return (
     <div className="navbar bg-neutral text-neutral-content">
       <div className="navbar-start">
@@ -39,22 +66,32 @@ const NavBar = () => {
               />
             </svg>
           </div>
-          {guestMenu(
-            "menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-secondary text-secondary-content rounded-box w-52"
-          )}
+          {auth && auth.isAuthenticated()
+            ? authMenu(
+                "menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-secondary text-secondary-content rounded-box w-52"
+              )
+            : guestMenu(
+                "menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-secondary text-secondary-content rounded-box w-52"
+              )}
         </div>
-        <img
-          src="/images/logo.png"
-          alt="EcoInsight Logo"
-          className="w-10 sm:w-20"
-        />{" "}
+        <Link to="/">
+          <img
+            src="/images/logo.png"
+            alt="EcoInsight Logo"
+            className="w-10 sm:w-20"
+          />
+        </Link>
         &emsp;
-        <h3 className="font-bold text-xl sm:text-3xl text-primary">
-          ECOiNSIGHT
-        </h3>
+        <Link to="/">
+          <h3 className="font-bold text-xl sm:text-3xl text-primary">
+            ECOiNSIGHT
+          </h3>
+        </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
-        {guestMenu("menu menu-horizontal px-1")}
+        {auth && auth.isAuthenticated()
+          ? authMenu("menu menu-horizontal px-1")
+          : guestMenu("menu menu-horizontal px-1")}
       </div>
       <div className="navbar-end">
         {/* Dark Mode Toggle */}
