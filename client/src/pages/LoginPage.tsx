@@ -1,12 +1,15 @@
 // src/components/Login.tsx
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router";
+
 import { useAuth } from "../context/AuthContext.tsx";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const auth = useAuth()!;
+  const navigate = useNavigate();
   const server = import.meta.env.VITE_BACK_END_SERVER;
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,8 +20,14 @@ const LoginPage = () => {
       });
       console.log(response.data);
       auth.login(response.data.user);
-    } catch (error) {
+      navigate("/dashboard");
+    } catch (error: any) {
       console.error(error);
+      if (error.status == 401) {
+        alert("Invalid username or password");
+      } else {
+        alert("A server error occured, please try again.");
+      }
     }
   };
   if (auth.isAuthenticated()) {

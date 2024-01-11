@@ -82,6 +82,8 @@ class Login(Resource):
                                       'message': 'Login successful'}, 200)
                 resp.set_cookie('jwt', token, httponly=True)
                 return resp
+            else:
+                return make_response({'message': 'Incorrect username or password'}, 401)
         else:
             return {"message":"Incorrect username or password"}, 401
 api.add_resource(Login, '/api/login')
@@ -103,20 +105,32 @@ class UserById(Resource):
     def patch(self, id):
         user = User.query.get(id)
         if user:
+            allowed_keys = {'first_name', 'last_name', 'display_name', 'email', 'username'}
             for key, value in request.json.items():
-                setattr(user, key, value)
+                if key == 'password':
+                    user.password_hash = value
+                elif key in allowed_keys:
+                    setattr(user, key, value)
+
             db.session.commit()
-            return make_response(user.to_dict(), 200)
+            return make_response({'user': user.to_dict(), 'message': 'User updated'}, 200)
+
         return make_response({"message": "User not found"}, 404)
     
     def delete(self, id):
+        token = request.cookies.get('jwt')
+        data = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
         user = User.query.get(id)
         if user:
-            db.session.delete(user)
-            db.session.commit()
-            return make_response({"message": "User deleted"}, 204)
-        return make_response({"message": "User not found"}, 404)
-api.add_resource(UserById, '/api/users/<int:id>')
+            if user.id == data['user_id']:
+                db.session.delete(user)
+                db.session.commit()
+                return make_response({"message": "User deleted"}, 204)
+            else:
+                return make_response({"message": "Unauthorized"}, 401)
+        else:
+            return make_response({"message": "User not found"}, 404)
+api.add_resource(UserById, '/api/users/<string:id>')
 
 class Users(Resource):
     def get(self):
@@ -124,11 +138,20 @@ class Users(Resource):
         return make_response([user.to_dict() for user in users], 200)
     
     def post(self):
-        user = User(**request.json)
-        db.session.add(user)
-        db.session.commit()
-        return make_response(user.to_dict(), 201)
-api.add_resource(Users, '/users')
+        newUser = {k: v for k, v in request.json.items() if k!='password'}
+        try:
+            user = User(**newUser)
+            user.password_hash = request.json['password']
+            db.session.add(user)
+            db.session.commit()
+            return make_response(user.to_dict(), 201)
+        except IntegrityError as ie:
+            db.session.rollback()
+            return make_response({"message": str(ie)}, 422)
+        except Exception as e:
+            db.session.rollback()
+            return make_response({"message": str(e)}, 500)
+api.add_resource(Users, '/api/users')
     
 class Projects(Resource):
     def get(self):

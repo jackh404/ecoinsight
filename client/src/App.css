@@ -4,10 +4,12 @@
 
 @font-face {
   font-family: "Nunito";
+  font-style: normal;
   src: url("/fonts/Nunito-VariableFont_wght.ttf");
 }
 @font-face {
-  font-family: "Nunito Italic";
+  font-family: "Nunito";
+  font-style: italic;
   src: url("/fonts/Nunito-Italic-VariableFont_wght.ttf");
 }
 @font-face {
@@ -22,4 +24,8 @@
 * {
   transition: background-color 0.5s;
   font-family: "Nunito", sans-serif;
+}
+
+input::placeholder {
+  font-style: italic;
 }

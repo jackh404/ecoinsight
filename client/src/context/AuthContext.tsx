@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     user: User | null;
   }>({ user: null });
 
-  const login = (user: User) => setAuth({ user });
+  const login = (user: User) => setAuth({ user: user });
 
   const logout = async () => {
     try {
@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // Check if the user is authenticated
   const isAuthenticated = () => {
-    return auth.user !== null;
+    return auth.user !== null && auth.user !== undefined;
   };
 
   return (

@@ -15,7 +15,7 @@ type User = {
   created_at: string;
   updated_at: string;
 };
-interface formData {
+interface FormData {
   [key: string]: string | number;
 }
-export type { question, formData, User };
+export type { question, FormData, User };

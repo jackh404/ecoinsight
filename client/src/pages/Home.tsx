@@ -1,8 +1,8 @@
 import "../App.css";
 const Home = () => {
   return (
-    <div className="bg-environmental-protection bg-cover bg-center grow z-0">
-      <div className="bg-base-100 bg-opacity-80 h-full p-8 z-1 ">
+    <div className="bg-environmental-protection bg-cover bg-center min-h-svh z-0">
+      <div className="bg-base-100 bg-opacity-80 min-h-svh p-8 z-1 ">
         <div className="md:flex z-2 mt-8">
           <div className="text-base-100-content p-6 rounded text-center m-2 ">
             <h1 className="text-3xl font-bold">Assess</h1>

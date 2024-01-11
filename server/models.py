@@ -113,7 +113,6 @@ class EnergyAssessment(db.Model, SerializerMixin):
     deg_between_setpoints = db.Column(db.Integer)
     filter_changes = db.Column(db.Boolean)
     ductwork_condition = db.Column(db.Integer)
-    air_sealing = db.Column(db.Integer)
     roof_color = db.Column(db.String)
     window_age = db.Column(db.Integer)
     window_type = db.Column(db.String)
@@ -123,6 +122,7 @@ class EnergyAssessment(db.Model, SerializerMixin):
     shower_flow = db.Column(db.Float)
     water_heater_type = db.Column(db.String)
     water_heater_age = db.Column(db.Integer)
+    grounds = db.Column(db.Boolean)
     rainwater = db.Column(db.Boolean)
     irrigation = db.Column(db.String)
     irrigation_controls = db.Column(db.String)
@@ -145,3 +145,6 @@ class EnergyAssessmentQuestions (db.Model, SerializerMixin):
     recommendation = db.relationship('Recommendation', back_populates='question')
         
     serialize_rules = ('-recommendation.question','-users')
+    
+    def __repr__(self):
+        return f'<EnergyAssessmentQuestions id={self.id} short={self.short}>'

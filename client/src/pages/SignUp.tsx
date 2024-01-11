@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
+
 import { useAuth } from "../context/AuthContext.tsx";
 
 type SignupFormData = {
@@ -12,6 +14,8 @@ type SignupFormData = {
 };
 
 const SignupPage: React.FC = () => {
+  const server = import.meta.env.VITE_BACK_END_SERVER;
+  const navigate = useNavigate();
   const { login } = useAuth()!;
   const [formData, setFormData] = useState<SignupFormData>({
     username: "",
@@ -33,8 +37,9 @@ const SignupPage: React.FC = () => {
     e.preventDefault();
     try {
       console.log("Submitting form data:", formData);
-      const response = await axios.post("/api/signup", formData);
+      const response = await axios.post(`${server}/users`, formData);
       login(response.data.user);
+      navigate("/dashboard");
     } catch (error) {
       console.error(error);
     }

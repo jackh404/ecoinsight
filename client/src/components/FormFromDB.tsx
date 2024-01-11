@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { question, formData } from "../../types.ts";
+import { question, FormData } from "../../types.ts";
 
 const FormFromDB = (props: { formUrl: string; dbUrl: string }) => {
   const [questions, setQuestions] = useState([]);
-  const [formData, setFormData] = useState({} as formData);
+  const [formData, setFormData] = useState({} as FormData);
   const { formUrl, dbUrl } = props;
   const fetchQuestions = async () => {
     const response = await fetch(formUrl);
