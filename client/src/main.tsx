@@ -10,6 +10,7 @@ import SignupPage from "./pages/SignUp.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 import EnergyAssessment from "./pages/EnergyAssessment.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
+import React from "react";
 
 const router = createBrowserRouter([
   {
@@ -50,7 +51,9 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <AuthProvider>
-    <RouterProvider router={router} />
-  </AuthProvider>
+  <React.StrictMode>
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  </React.StrictMode>
 );

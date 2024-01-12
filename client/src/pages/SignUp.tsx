@@ -16,7 +16,7 @@ type SignupFormData = {
 const SignupPage: React.FC = () => {
   const server = import.meta.env.VITE_BACK_END_SERVER;
   const navigate = useNavigate();
-  const { login } = useAuth()!;
+  const auth = useAuth()!;
   const [formData, setFormData] = useState<SignupFormData>({
     username: "",
     email: "",
@@ -38,7 +38,7 @@ const SignupPage: React.FC = () => {
     try {
       console.log("Submitting form data:", formData);
       const response = await axios.post(`${server}/users`, formData);
-      login(response.data.user);
+      await auth.login(response.data.user);
       navigate("/dashboard");
     } catch (error) {
       console.error(error);

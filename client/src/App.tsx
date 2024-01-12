@@ -19,7 +19,7 @@ function App() {
     if (!auth.user) {
       try {
         const response = await axios.get(`${server}/check_session`);
-        auth.login(response.data.user);
+        await auth.login(response.data.user);
       } catch (error) {
         console.error(error);
       }

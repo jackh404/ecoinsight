@@ -86,13 +86,15 @@ class Recommendation(db.Model, SerializerMixin):
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
     created_at = db.Column(db.DateTime, server_default=db.func.now())
+    title = db.Column(db.String, nullable=False)
     text = db.Column(db.Text, nullable=False)
     assessment = db.Column(db.String, nullable=False)
     question_id = db.Column(UUID(as_uuid=True), db.ForeignKey('energy_assessment_questions.id'), nullable=False)
+    triggering_values = db.Column(db.ARRAY(db.String), nullable=False)
     impact_level = db.Column(db.Integer, nullable=False)
     
     users = db.relationship('User', secondary=user_recomendations, back_populates='recommendations')
-    question = db.relationship('EnergyAssessmentQuestions', back_populates='recommendation')
+    question = db.relationship('EnergyAssessmentQuestion', back_populates='recommendation')
     
     serialize_rules = ('-users.recommendations','-question.recommendation','-projects','-energy_assessments')
     
@@ -105,25 +107,25 @@ class EnergyAssessment(db.Model, SerializerMixin):
     lighting_type = db.Column(db.String)
     light_habits = db.Column(db.String)
     daylighting = db.Column(db.String)
-    landscape_lights = db.Column(db.Boolean)
+    landscape_lights = db.Column(db.String)
     heating_type = db.Column(db.String)
     heating_age = db.Column(db.Integer)
     cooling_type = db.Column(db.String)
     cooling_age = db.Column(db.Integer)
     deg_between_setpoints = db.Column(db.Integer)
-    filter_changes = db.Column(db.Boolean)
-    ductwork_condition = db.Column(db.Integer)
+    filter_changes = db.Column(db.String)
+    ductwork_condition = db.Column(db.String)
     roof_color = db.Column(db.String)
     window_age = db.Column(db.Integer)
     window_type = db.Column(db.String)
-    e_star_appliances = db.Column(db.Integer)
-    toilet_flush = db.Column(db.Float)
-    sink_flow = db.Column(db.Float)
-    shower_flow = db.Column(db.Float)
+    e_star_appliances = db.Column(db.String)
+    toilet_flush = db.Column(db.String)
+    sink_flow = db.Column(db.String)
+    shower_flow = db.Column(db.String)
     water_heater_type = db.Column(db.String)
     water_heater_age = db.Column(db.Integer)
-    grounds = db.Column(db.Boolean)
-    rainwater = db.Column(db.Boolean)
+    grounds = db.Column(db.String)
+    rainwater = db.Column(db.String)
     irrigation = db.Column(db.String)
     irrigation_controls = db.Column(db.String)
     re_sources = db.Column(db.String)
@@ -133,7 +135,7 @@ class EnergyAssessment(db.Model, SerializerMixin):
     
     serialize_rules = ('-user.energy_assessments','-projects')
     
-class EnergyAssessmentQuestions (db.Model, SerializerMixin):
+class EnergyAssessmentQuestion (db.Model, SerializerMixin):
     __tablename__ = 'energy_assessment_questions'
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
@@ -142,9 +144,9 @@ class EnergyAssessmentQuestions (db.Model, SerializerMixin):
     type = db.Column(db.String, nullable=False)
     options = db.Column(db.ARRAY(db.String), nullable = True)
     
-    recommendation = db.relationship('Recommendation', back_populates='question')
+    recommendation = db.relationship('Recommendation', back_populates='question', cascade="all, delete-orphan")
         
     serialize_rules = ('-recommendation.question','-users')
     
     def __repr__(self):
-        return f'<EnergyAssessmentQuestions id={self.id} short={self.short}>'
+        return f'<EnergyAssessmentQuestion id={self.id} short={self.short}>'

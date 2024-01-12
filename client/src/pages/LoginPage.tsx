@@ -18,7 +18,6 @@ const LoginPage = () => {
         username,
         password,
       });
-      console.log(response.data);
       auth.login(response.data.user);
       navigate("/dashboard");
     } catch (error: any) {

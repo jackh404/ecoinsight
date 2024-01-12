@@ -7,7 +7,7 @@ import jwt
 import datetime
 
 from config import db, migrate, app, api
-from models import User, Project, ProjectUpdate, Recommendation, EnergyAssessment, user_recomendations
+from models import User, Project, ProjectUpdate, Recommendation, EnergyAssessment, user_recomendations, EnergyAssessmentQuestion
 
 load_dotenv()
 
@@ -61,7 +61,7 @@ class CheckSession(Resource):
             return {'message': 'Token Expired'}, 401
         except jwt.InvalidTokenError:
             return {'message': 'Invalid Token'}, 401
-        user = User.query.get(data['user_id'])
+        user = User.query.filter_by(id=data['user_id']).first()
         if user:
             return {'user': user.to_dict()}, 200
 api.add_resource(CheckSession, '/api/check_session')
@@ -77,7 +77,6 @@ class Login(Resource):
                     'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)}, 
                     SECRET_KEY,
                     algorithm="HS256")
-                print(token)
                 resp = make_response({'user':user.to_dict(),
                                       'message': 'Login successful'}, 200)
                 resp.set_cookie('jwt', token, httponly=True)
@@ -122,7 +121,7 @@ class UserById(Resource):
         data = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
         user = User.query.get(id)
         if user:
-            if user.id == data['user_id']:
+            if id == data['user_id']:
                 db.session.delete(user)
                 db.session.commit()
                 return make_response({"message": "User deleted"}, 204)
@@ -189,11 +188,46 @@ api.add_resource(Recommendations, '/api/recommendations')
     
 class EnergyAssessmentQuestions(Resource):
     def get(self):
-        questions = EnergyAssessmentQuestions.query.all()
+        questions = EnergyAssessmentQuestion.query.all()
         return make_response([question.to_dict() for question in questions], 200)
 api.add_resource(EnergyAssessmentQuestions, '/api/energy_assessment_questions')
 
-    
+class EnergyAssessments(Resource):
+    def get(self):
+        assessments = EnergyAssessment.query.all()
+        return make_response([assessment.to_dict() for assessment in assessments], 200)
+    def post(self):
+        user = User.query.filter_by(id=request.json['user_id']).first()
+        assessment = EnergyAssessment(**request.json)
+        for key in request.json:
+            q = EnergyAssessmentQuestion.query.filter_by(short=key).first()
+            if q:
+                rec = Recommendation.query.filter_by(question_id=q.id).first()
+                if rec:
+                    conds = rec.triggering_values
+                    if conds[0] == 'greater_than':
+                        print(f'{request.json[key]} > {conds[1]}?')
+                        if request.json[key] > conds[1]:
+                            if rec not in user.recommendations:
+                                user.recommendations.append(rec)
+                        elif rec in user.recommendations:
+                            user.recommendations.remove(rec)
+                    elif conds[0] == 'less_than':
+                        print(f'{request.json[key]} < {conds[1]}?')
+                        if request.json[key] < conds[1]:
+                            if rec not in user.recommendations:
+                                user.recommendations.append(rec)
+                        elif rec in user.recommendations:
+                            user.recommendations.remove(rec)
+                    elif request.json[key] in conds:
+                        if rec not in user.recommendations:
+                            user.recommendations.append(rec)
+                    elif rec in user.recommendations:
+                        user.recommendations.remove(rec)
+        db.session.add(assessment)
+        db.session.commit()
+        return make_response({'assessment': assessment.to_dict(),'recommendations': [rec.to_dict() for rec in user.recommendations]}, 201)
+api.add_resource(EnergyAssessments, '/api/energy_assessments')    
 
 debug = os.getenv('SERVER_DEBUG')
 

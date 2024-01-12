@@ -6,7 +6,7 @@ import { User } from "../../types.ts";
 
 interface AuthContextType {
   user: User | null;
-  login: (user: User) => void;
+  login: (user: User) => Promise<void>;
   logout: () => void;
   isAuthenticated: () => boolean;
 }
@@ -22,7 +22,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     user: User | null;
   }>({ user: null });
 
-  const login = (user: User) => setAuth({ user: user });
+  const login = async (user: User) => {
+    return new Promise<void>(resolve => {
+      setAuth({ user: user });
+      resolve();
+    });
+  };
 
   const logout = async () => {
     try {
