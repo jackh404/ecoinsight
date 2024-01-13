@@ -6,10 +6,9 @@ import AccountEditForm from "../components/AccountEditForm.tsx";
 import { useNavigate } from "react-router";
 const Dashboard = () => {
   const navigate = useNavigate();
-  const server = import.meta.env.VITE_BACK_END_SERVER;
   const handleAccountDelete = async () => {
     try {
-      await axios.delete(`${server}/users/${auth.user?.id}`);
+      await axios.delete(`api/users/${auth.user?.id}`);
       alert("Account deleted");
       auth.logout();
       navigate("/");

@@ -4,7 +4,6 @@ import FormFromDB from "../components/FormFromDB.tsx";
 import { useAuth } from "../context/AuthContext.tsx";
 
 const EnergyAssessment = () => {
-  const server = import.meta.env.VITE_BACK_END_SERVER;
   const auth = useAuth()!;
 
   const handleSubmit = async (
@@ -12,7 +11,7 @@ const EnergyAssessment = () => {
     formData: FormData
   ) => {
     e.preventDefault();
-    const response = axios.post(`${server}/energy_assessments`, {
+    const response = axios.post(`api/energy_assessments`, {
       user_id: auth.user?.id,
       ...formData,
     });
@@ -23,7 +22,7 @@ const EnergyAssessment = () => {
     <div>
       <h1>Energy Assessment</h1>
       <FormFromDB
-        formUrl={`${server}/energy_assessment_questions`}
+        formUrl={`api/energy_assessment_questions`}
         handleSubmit={handleSubmit}
       />
     </div>

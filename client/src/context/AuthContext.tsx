@@ -11,8 +11,6 @@ interface AuthContextType {
   isAuthenticated: () => boolean;
 }
 
-const server = import.meta.env.VITE_BACK_END_SERVER;
-
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const useAuth = () => useContext(AuthContext);
@@ -31,7 +29,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = async () => {
     try {
-      await axios.delete(`${server}/logout`);
+      await axios.delete(`api/logout`);
     } catch (error) {
       console.error("Error logging out:, ", error);
     }

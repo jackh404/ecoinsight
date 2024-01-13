@@ -12,13 +12,12 @@ function App() {
     themeChange(false);
     checkSession();
   }, []);
-  const server = import.meta.env.VITE_BACK_END_SERVER;
   const auth = useAuth()!;
   axios.defaults.withCredentials = true;
   const checkSession = async () => {
     if (!auth.user) {
       try {
-        const response = await axios.get(`${server}/check_session`);
+        const response = await axios.get(`api/check_session`);
         await auth.login(response.data.user);
       } catch (error) {
         console.error(error);

@@ -10,11 +10,10 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const auth = useAuth()!;
   const navigate = useNavigate();
-  const server = import.meta.env.VITE_BACK_END_SERVER;
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${server}/login`, {
+      const response = await axios.post(`api/login`, {
         username,
         password,
       });
