@@ -1,3 +1,4 @@
+import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import Home from "./pages/Home.tsx";
@@ -5,12 +6,12 @@ import ErrorPage from "./pages/ErrorPage.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { AuthProvider } from "./context/AuthContext.tsx";
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import SignupPage from "./pages/SignUp.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 import EnergyAssessment from "./pages/EnergyAssessment.tsx";
-import ProtectedRoute from "./components/ProtectedRoute.tsx";
-import React from "react";
+import AssessmentResults from "./pages/AssessmentResults.tsx";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <EnergyAssessment />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/assessment-results",
+        element: (
+          <ProtectedRoute>
+            <AssessmentResults />
           </ProtectedRoute>
         ),
       },

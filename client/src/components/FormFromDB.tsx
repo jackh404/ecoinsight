@@ -32,7 +32,7 @@ const FormFromDB = (props: { formUrl: string; handleSubmit: Function }) => {
               <select
                 name={question.short}
                 id={question.short}
-                value={formData[question.short]}
+                value={formData[question.short] ?? ""}
                 onChange={handleChange}
               >
                 {question.options.map(option => (
@@ -57,7 +57,7 @@ const FormFromDB = (props: { formUrl: string; handleSubmit: Function }) => {
               type={question.type}
               name={question.short}
               id={question.short}
-              value={formData[question.short]}
+              value={formData[question.short] ?? ""}
               onChange={handleChange}
             />
           </div>

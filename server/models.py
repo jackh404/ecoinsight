@@ -17,7 +17,7 @@ user_recomendations = db.Table(
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     first_name = db.Column(db.String(80), nullable=False)
@@ -51,7 +51,7 @@ class User(db.Model, SerializerMixin):
 class Project(db.Model, SerializerMixin):
     __tablename__ = 'projects'
 
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     user_id = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'), nullable=False)
     name = db.Column(db.String, unique=True, nullable=False)
     goals = db.Column(db.Text, nullable=False)
@@ -72,7 +72,7 @@ class Project(db.Model, SerializerMixin):
 class ProjectUpdate(db.Model, SerializerMixin):
     __tablename__ = 'project_updates'
 
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     project_id = db.Column(UUID(as_uuid=True), db.ForeignKey('projects.id'), nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     text = db.Column(db.Text, nullable=False)
@@ -84,7 +84,7 @@ class ProjectUpdate(db.Model, SerializerMixin):
 class Recommendation(db.Model, SerializerMixin):
     __tablename__ = 'recommendations'
 
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     title = db.Column(db.String, nullable=False)
     text = db.Column(db.Text, nullable=False)
@@ -101,7 +101,7 @@ class Recommendation(db.Model, SerializerMixin):
 class EnergyAssessment(db.Model, SerializerMixin):
     __tablename__ = 'energy_assessments'
 
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     user_id = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'))
     lighting_type = db.Column(db.String)
@@ -138,7 +138,7 @@ class EnergyAssessment(db.Model, SerializerMixin):
 class EnergyAssessmentQuestion (db.Model, SerializerMixin):
     __tablename__ = 'energy_assessment_questions'
 
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     short = db.Column(db.String, nullable=False)
     full = db.Column(db.String, nullable=False)
     type = db.Column(db.String, nullable=False)

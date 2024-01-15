@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 #server/seed.py
 import uuid
+from sqlalchemy import text
+
 from app import app
-from models import db, EnergyAssessmentQuestion, Recommendation
+from models import db, EnergyAssessmentQuestion, Recommendation, EnergyAssessment
 if __name__ == "__main__":
     with app.app_context():
+        db.session.execute(text("DELETE FROM user_recommendations WHERE recommendation_id IN (SELECT id FROM recommendations)"))
         Recommendation.query.delete()
         EnergyAssessmentQuestion.query.delete()
+        EnergyAssessment.query.delete()
         questions = []
         #0
         questions.append(EnergyAssessmentQuestion(
@@ -120,6 +124,7 @@ if __name__ == "__main__":
             type = 'heading',
             options = None
         ))
+        #14
         questions.append(EnergyAssessmentQuestion(
             id=str(uuid.uuid4()),
             short = 'roof_color',
@@ -127,6 +132,7 @@ if __name__ == "__main__":
             type = 'select',
             options = ['','Dark', 'Medium', 'Light', "I don't know"]
         ))
+        #15
         questions.append(EnergyAssessmentQuestion(
             id=str(uuid.uuid4()),
             short = 'window_age',
@@ -134,6 +140,7 @@ if __name__ == "__main__":
             type = 'number',
             options = None
         ))
+        #16
         questions.append(EnergyAssessmentQuestion(
             id=str(uuid.uuid4()),
             short = 'window_type',
@@ -141,6 +148,7 @@ if __name__ == "__main__":
             type = 'select',
             options = ['','Aluminum', 'Vinyl', 'Wood', "I don't know"]
         ))
+        #17
         questions.append(EnergyAssessmentQuestion(
             id=str(uuid.uuid4()),
             short = 'appliances',
@@ -148,6 +156,7 @@ if __name__ == "__main__":
             type = 'heading',
             options = None
         ))
+        #18
         questions.append(EnergyAssessmentQuestion(
             id=str(uuid.uuid4()),
             short = 'e_star_appliances',
@@ -155,6 +164,7 @@ if __name__ == "__main__":
             type = 'select',
             options = ['','None','Some','Most','All',"I don't know"]
         ))
+        #19
         questions.append(EnergyAssessmentQuestion(
             id=str(uuid.uuid4()),
             short = 'water',
@@ -162,6 +172,7 @@ if __name__ == "__main__":
             type  = 'heading',
             options = None
         ))
+        #20
         questions.append(EnergyAssessmentQuestion(
             id=str(uuid.uuid4()),
             short = 'toilet_flush',
@@ -169,6 +180,7 @@ if __name__ == "__main__":
             type = 'select',
             options = ['','Yes', 'No', "I don't know"]
         ))
+        #21
         questions.append(EnergyAssessmentQuestion(
             id=str(uuid.uuid4()),
             short = 'sink_flow',
@@ -176,6 +188,7 @@ if __name__ == "__main__":
             type = 'select',
             options = ['','Yes', 'No', "I don't know"]
         ))
+        #22
         questions.append(EnergyAssessmentQuestion(
             id=str(uuid.uuid4()),
             short = 'shower_flow',
@@ -183,6 +196,7 @@ if __name__ == "__main__":
             type = 'select',
             options = ['','Yes', 'No', "I don't know"]
         ))
+        #23
         questions.append(EnergyAssessmentQuestion(
             id=str(uuid.uuid4()),
             short = 'water_heater_type',
@@ -190,6 +204,7 @@ if __name__ == "__main__":
             type = 'select',
             options = ['','Gas (Tank)', 'Electric (Tank)', 'Gas (Tankless)','Electric (Tankless)','Heat Pump', "I don't know"]
         ))
+        #24
         questions.append(EnergyAssessmentQuestion(
             id=str(uuid.uuid4()),
             short = 'water_heater_age',
@@ -197,6 +212,7 @@ if __name__ == "__main__":
             type = 'number',
             options = None
         ))
+        #25
         questions.append(EnergyAssessmentQuestion(
             id=str(uuid.uuid4()),
             short = 'grounds',
@@ -204,6 +220,7 @@ if __name__ == "__main__":
             type = 'select',
             options = ['','Yes', 'No']
         ))
+        #26
         questions.append(EnergyAssessmentQuestion(
             id=str(uuid.uuid4()),
             short = 'rainwater',
@@ -211,6 +228,7 @@ if __name__ == "__main__":
             type = 'select',
             options = ['','Yes', 'No']
         ))
+        #27
         questions.append(EnergyAssessmentQuestion(
             id=str(uuid.uuid4()),
             short = 'irrigation',
@@ -218,6 +236,7 @@ if __name__ == "__main__":
             type = 'select',
             options = ['','Yes', 'No', 'Sometimes']
         ))
+        #28
         questions.append(EnergyAssessmentQuestion(
             id=str(uuid.uuid4()),
             short = 'irrigation_controls',
@@ -225,6 +244,7 @@ if __name__ == "__main__":
             type = 'select',
             options = ['','Yes', 'No', 'Sometimes']
         ))
+        #29
         questions.append(EnergyAssessmentQuestion(
             id=str(uuid.uuid4()),
             short = 're_energy',
@@ -232,6 +252,7 @@ if __name__ == "__main__":
             type = 'heading',
             options = None
         ))
+        #30
         questions.append(EnergyAssessmentQuestion(
             id=str(uuid.uuid4()),
             short = 're_sources',
@@ -239,6 +260,7 @@ if __name__ == "__main__":
             type = 'select',
             options = ['','Solar', 'Wind', 'Microhydroelectric', 'Other']
         ))
+        #31
         questions.append(EnergyAssessmentQuestion(
             id=str(uuid.uuid4()),
             short = 're_percentage',
@@ -293,6 +315,24 @@ if __name__ == "__main__":
             assessment = 'Energy Assessment',
             question_id = questions[10].id,
             triggering_values = ['less_than','5'],
+            impact_level = 2
+        ))
+        recommendations.append(Recommendation(
+            id=str(uuid.uuid4()),
+            title = 'Change Those Filters',
+            text = "Regularly changing your HVAC system filters is a relatively simple process, though it can be a bit more involved if your system' air handler is in a crawlspace. Filters should be changed every 3-6 months (look at the package). Filters collect dust over time, and can actually put significant strain on your system by blocking airflow if left unchanged. By changing your filters, you keep your HVAC system running more efficiently and prolong its working life.",
+            assessment = 'Energy Assessment',
+            question_id = questions[11].id,
+            triggering_values = ['No','Sometimes'],
+            impact_level = 1
+        ))
+        recommendations.append(Recommendation(
+            id=str(uuid.uuid4()),
+            title = 'Check and Maintain Your Ductwork',
+            text = "Your HVAC system's ductwork is a series of large tubes through which conditioned and/or heated air flows from the air handler into your home and back again. If these ducts are in an unconditioned space, such as an attic, crawlspace, or unfinished basement, special care must be taken to maintain them, as leaks will significantly reduce the energy efficiency of your home.",
+            assessment = 'Energy Assessment',
+            question_id = questions[12].id,
+            triggering_values = ["Poor","I don't know"],
             impact_level = 2
         ))
         db.session.add_all(recommendations)

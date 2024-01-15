@@ -178,13 +178,22 @@ class ProjectById(Resource):
             db.session.commit()
             return make_response({"message": "Project deleted"}, 204)
         return make_response({"message": "Project not found"}, 404)
-api.add_resource(ProjectById, '/api/projects/<int:id>')
+api.add_resource(ProjectById, '/api/projects/<string:id>')
     
 class Recommendations(Resource):
     def get(self):
         recommendations = Recommendation.query.all()
         return make_response([recommendation.to_dict() for recommendation in recommendations], 200)
 api.add_resource(Recommendations, '/api/recommendations')
+
+class RecommendationsByUser(Resource):
+    def get(self, id):
+        user = User.query.filter_by(id=id).first()
+        if user:
+            recommendations = user.recommendations
+            return make_response([recommendation.to_dict() for recommendation in recommendations], 200)
+        return make_response({"message": "User not found"}, 404)
+api.add_resource(RecommendationsByUser, '/api/users/<string:id>/recommendations')
     
 class EnergyAssessmentQuestions(Resource):
     def get(self):
@@ -207,14 +216,16 @@ class EnergyAssessments(Resource):
                     conds = rec.triggering_values
                     if conds[0] == 'greater_than':
                         print(f'{request.json[key]} > {conds[1]}?')
-                        if request.json[key] > conds[1]:
+                        print(int(request.json[key]) > int(conds[1]))
+                        if int(request.json[key]) > int(conds[1]):
                             if rec not in user.recommendations:
                                 user.recommendations.append(rec)
                         elif rec in user.recommendations:
                             user.recommendations.remove(rec)
                     elif conds[0] == 'less_than':
                         print(f'{request.json[key]} < {conds[1]}?')
-                        if request.json[key] < conds[1]:
+                        print(int(request.json[key]) < int(conds[1]))
+                        if int(request.json[key]) < int(conds[1]):
                             if rec not in user.recommendations:
                                 user.recommendations.append(rec)
                         elif rec in user.recommendations:
