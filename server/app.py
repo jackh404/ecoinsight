@@ -18,6 +18,10 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 def index():
     return render_template('index.html')
 
+########################################################
+#                   USER ROUTES                        #
+########################################################
+
 class Signup(Resource):
     def post(self):
         json = request.json
@@ -152,6 +156,10 @@ class Users(Resource):
             db.session.rollback()
             return make_response({"message": str(e)}, 500)
 api.add_resource(Users, '/api/users')
+
+########################################################
+#                 PROJECT ROUTES                       #
+########################################################
     
 class Projects(Resource):
     def get(self):
@@ -180,6 +188,18 @@ class ProjectById(Resource):
             return make_response({"message": "Project deleted"}, 204)
         return make_response({"message": "Project not found"}, 404)
 api.add_resource(ProjectById, '/api/projects/<uuid:id>')
+
+class UpdateProject(Resource):
+    def post(self):
+        update = ProjectUpdate(**request.json)
+        db.session.add(update)
+        db.session.commit()
+        return make_response(update.to_dict(), 201)
+api.add_resource(UpdateProject, '/api/project_updates')
+
+########################################################
+#              RECOMMENDATION ROUTES                   #
+########################################################
     
 class Recommendations(Resource):
     def get(self):
@@ -195,6 +215,10 @@ class RecommendationsByUser(Resource):
             return make_response([recommendation.to_dict() for recommendation in recommendations], 200)
         return make_response({"message": "User not found"}, 404)
 api.add_resource(RecommendationsByUser, '/api/users/<uuid:id>/recommendations')
+
+#########################################################
+#              ENERGY ASSESSMENT ROUTES                 #
+#########################################################
     
 class EnergyAssessmentQuestions(Resource):
     def get(self):

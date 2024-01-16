@@ -75,7 +75,7 @@ const EnergyAssessment = () => {
     <div>
       <h1>Energy Assessment</h1>
       <FormFromDB
-        formUrl={`api/energy_assessment_questions`}
+        formUrl={`/api/energy_assessment_questions`}
         handleSubmit={handleSubmit}
       />
       <Modal id="energy-assessment-modal">{modalContents}</Modal>

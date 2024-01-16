@@ -21,6 +21,10 @@ export default {
           fontSize: theme("fontSize.lg"),
           fontWeight: theme("fontWeight.semibold"),
         },
+        h4: {
+          fontSize: theme("fontSize.lg"),
+          fontWeight: theme("fontWeight.light"),
+        },
       });
     }),
   ],
