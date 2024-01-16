@@ -8,6 +8,7 @@ const FormFromDB = (props: { formUrl: string; handleSubmit: Function }) => {
   const { formUrl, handleSubmit } = props;
   const fetchQuestions = async () => {
     const response = await axios.get(formUrl);
+    console.log(response);
     setQuestions(response.data);
     const formObj = {} as FormData;
     for (let q in response.data) {

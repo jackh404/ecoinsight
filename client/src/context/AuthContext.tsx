@@ -9,6 +9,8 @@ interface AuthContextType {
   login: (user: User) => Promise<void>;
   logout: () => void;
   isAuthenticated: () => boolean;
+  isLoading: boolean;
+  checkSession: () => Promise<any>;
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -16,6 +18,7 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [isLoading, setIsLoading] = useState(true);
   const [auth, setAuth] = useState<{
     user: User | null;
   }>({ user: null });
@@ -25,6 +28,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setAuth({ user: user });
       resolve();
     });
+  };
+
+  const checkSession = async () => {
+    setIsLoading(true);
+    let response;
+    try {
+      response = await axios.get(`api/check_session`);
+      await login(response.data.user);
+    } catch (error) {
+      console.error(error);
+    }
+    setIsLoading(false);
+    return response;
   };
 
   const logout = async () => {
@@ -42,7 +58,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ ...auth, login, logout, isAuthenticated }}>
+    <AuthContext.Provider
+      value={{
+        ...auth,
+        login,
+        logout,
+        isAuthenticated,
+        checkSession,
+        isLoading,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

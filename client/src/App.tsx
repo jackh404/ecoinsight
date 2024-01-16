@@ -8,22 +8,13 @@ import NavBar from "./components/NavBar.tsx";
 import { useAuth } from "./context/AuthContext.tsx";
 
 function App() {
+  const auth = useAuth()!;
   useEffect(() => {
     themeChange(false);
-    checkSession();
+    auth.checkSession();
   }, []);
-  const auth = useAuth()!;
   axios.defaults.withCredentials = true;
-  const checkSession = async () => {
-    if (!auth.user) {
-      try {
-        const response = await axios.get(`api/check_session`);
-        await auth.login(response.data.user);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  };
+
   return (
     <>
       <header>

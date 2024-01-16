@@ -12,6 +12,8 @@ import SignupPage from "./pages/SignUp.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 import EnergyAssessment from "./pages/EnergyAssessment.tsx";
 import AssessmentResults from "./pages/AssessmentResults.tsx";
+import Projects from "./pages/Projects.tsx";
+import ProjectPage from "./pages/ProjectPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +54,22 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <AssessmentResults />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/projects",
+        element: (
+          <ProtectedRoute>
+            <Projects />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "project/:id/",
+        element: (
+          <ProtectedRoute>
+            <ProjectPage />
           </ProtectedRoute>
         ),
       },

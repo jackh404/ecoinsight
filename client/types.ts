@@ -16,6 +16,7 @@ type User = {
   updated_at: string;
   energy_assessments: EnergyAssessment[];
   recommendations: Recommendation[];
+  projects: Project[];
 };
 type EnergyAssessment = {
   id: string;
@@ -28,7 +29,33 @@ type Recommendation = {
   text: string;
   impact_level: number;
 };
+type Project = {
+  id: string;
+  user_id: string;
+  title: string;
+  goals: string;
+  description: string;
+  created_at: string;
+  completed_at: string;
+  project_updates: ProjectUpdate[];
+};
+type ProjectUpdate = {
+  id: string;
+  created_at: string;
+  text: string;
+  project_id: string;
+};
+
 interface FormData {
   [key: string]: string | number;
 }
-export type { question, FormData, User, EnergyAssessment, Recommendation };
+
+export type {
+  question,
+  FormData,
+  User,
+  EnergyAssessment,
+  Recommendation,
+  Project,
+  ProjectUpdate,
+};

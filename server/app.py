@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from sqlalchemy.exc import IntegrityError
 import jwt
 import datetime
+import uuid
 
 from config import db, migrate, app, api
 from models import User, Project, ProjectUpdate, Recommendation, EnergyAssessment, user_recomendations, EnergyAssessmentQuestion
@@ -129,7 +130,7 @@ class UserById(Resource):
                 return make_response({"message": "Unauthorized"}, 401)
         else:
             return make_response({"message": "User not found"}, 404)
-api.add_resource(UserById, '/api/users/<string:id>')
+api.add_resource(UserById, '/api/users/<uuid:id>')
 
 class Users(Resource):
     def get(self):
@@ -172,13 +173,13 @@ class ProjectById(Resource):
         return make_response({"message": "Project not found"}, 404)
     
     def delete(self, id):
-        project = Project.query.get(id)
+        project = Project.query.filter_by(id=id).first()
         if project:
             db.session.delete(project)
             db.session.commit()
             return make_response({"message": "Project deleted"}, 204)
         return make_response({"message": "Project not found"}, 404)
-api.add_resource(ProjectById, '/api/projects/<string:id>')
+api.add_resource(ProjectById, '/api/projects/<uuid:id>')
     
 class Recommendations(Resource):
     def get(self):
@@ -193,7 +194,7 @@ class RecommendationsByUser(Resource):
             recommendations = user.recommendations
             return make_response([recommendation.to_dict() for recommendation in recommendations], 200)
         return make_response({"message": "User not found"}, 404)
-api.add_resource(RecommendationsByUser, '/api/users/<string:id>/recommendations')
+api.add_resource(RecommendationsByUser, '/api/users/<uuid:id>/recommendations')
     
 class EnergyAssessmentQuestions(Resource):
     def get(self):

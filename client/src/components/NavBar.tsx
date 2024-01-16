@@ -41,6 +41,9 @@ const NavBar = () => {
           <NavLink to={"/energy-assessment"}>Energy Assessment</NavLink>
         </li>
         <li>
+          <NavLink to={"/projects"}>Projects</NavLink>
+        </li>
+        <li>
           <a onClick={e => logout(e)}>Logout</a>
         </li>
       </ul>

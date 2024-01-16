@@ -53,21 +53,22 @@ class Project(db.Model, SerializerMixin):
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     user_id = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'), nullable=False)
-    name = db.Column(db.String, unique=True, nullable=False)
+    title = db.Column(db.String, nullable=False)
     goals = db.Column(db.Text, nullable=False)
     description = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
+    completed_at = db.Column(db.DateTime)
     
     user = db.relationship('User', back_populates='projects')
     project_updates = db.relationship('ProjectUpdate', back_populates='project', cascade="all, delete-orphan")
     
-    serialize_rules = ('-user.projects','-project_updates.project','-energy_assessments','-recommendations',)
+    serialize_rules = ('-user.projects','-project_updates.project','-user.energy_assessments','-user.recommendations',)
     
-    @validates('name')
-    def validates_name(self, key, name):
-        if not isinstance(name, str) or len(name) < 3:
-            raise ValueError('Name must be a string longer than 3 characters')
-        return name
+    @validates('title')
+    def validates_title(self, key, title):
+        if not isinstance(title, str) or len(title) < 3:
+            raise ValueError('Project title must be a string longer than 3 characters')
+        return title
     
 class ProjectUpdate(db.Model, SerializerMixin):
     __tablename__ = 'project_updates'
