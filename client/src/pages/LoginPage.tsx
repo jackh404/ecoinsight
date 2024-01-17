@@ -4,7 +4,6 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 
 import { useAuth } from "../context/AuthContext.tsx";
-import Loading from "../components/Loading.tsx";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
