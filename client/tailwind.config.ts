@@ -9,14 +9,22 @@ export default {
           "url('/images/environmental-protection.jpg')",
         "lush-stream": "url('/images/lush-stream.png')",
       },
+      animation: {},
+      keyframes: {},
     },
   },
   plugins: [
     require("daisyui"),
     plugin(function ({ addBase, theme }) {
       addBase({
-        h1: { fontSize: theme("fontSize.2xl") },
-        h2: { fontSize: theme("fontSize.xl") },
+        h1: {
+          fontSize: theme("fontSize.3xl"),
+          fontWeight: theme("fontWeight.semibold"),
+        },
+        h2: {
+          fontSize: theme("fontSize.xl"),
+          fontWeight: theme("fontWeight.semibold"),
+        },
         h3: {
           fontSize: theme("fontSize.lg"),
           fontWeight: theme("fontWeight.semibold"),
@@ -29,6 +37,7 @@ export default {
     }),
   ],
   daisyui: {
-    themes: ["cupcake", "night"],
+    themes: ["night", "winter"],
+    darkTheme: "night",
   },
 };

@@ -25,10 +25,12 @@ const ProjectShowcase = () => {
     fetchProjects();
   }, []);
   return (
-    <div>
-      <h1>Project Showcase</h1>
-      <div className="p-8 grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {displayProjects()}
+    <div className="bg-lush-stream bg-cover bg-center min-h-svh">
+      <div className="bg-base-100 bg-opacity-70 min-h-svh p-8 z-1 ">
+        <h1 className="text-center pt-4">Project Showcase</h1>
+        <div className="p-8 grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {displayProjects()}
+        </div>
       </div>
     </div>
   );

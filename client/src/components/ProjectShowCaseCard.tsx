@@ -11,19 +11,21 @@ const ProjectShowCaseCard = (props: { project: Project }) => {
     lastUpdate = new Date(Math.max(...upDates)).toDateString();
   }
   return (
-    <Link to={`/project/${props.project.id}`}>
-      <div className="card bg-secondary text-secondary-content w-[70%] md:w-[100%]">
-        <div className="card-body">
-          <h3>{title}</h3>
-          <p>- {user.display_name}</p>
-          <p>Goals: {goals}</p>
-          <p>Started: {new Date(created_at).toDateString()}</p>
-          <p className="italic">
-            {lastUpdate ? `Last update: ${lastUpdate}` : "No updates yet."}
-          </p>
+    <div className="w-[70%] md:w-[100%] hover:scale-105">
+      <Link to={`/project/${props.project.id}`}>
+        <div className="card bg-secondary text-secondary-content">
+          <div className="card-body">
+            <h3>{title}</h3>
+            <p>- {user.display_name}</p>
+            <p>Goals: {goals}</p>
+            <p>Started: {new Date(created_at).toDateString()}</p>
+            <p className="italic">
+              {lastUpdate ? `Last update: ${lastUpdate}` : "No updates yet."}
+            </p>
+          </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 };
 

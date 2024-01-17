@@ -6,11 +6,12 @@ import { User } from "../../types.ts";
 
 interface AuthContextType {
   user: User | null;
-  login: (user: User) => Promise<void>;
+  login: (user: User) => void;
   logout: () => void;
   isAuthenticated: () => boolean;
   isLoading: boolean;
   checkSession: () => Promise<any>;
+  setIsLoading: (isLoading: boolean) => void;
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -23,11 +24,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     user: User | null;
   }>({ user: null });
 
-  const login = async (user: User) => {
-    return new Promise<void>(resolve => {
-      setAuth({ user: user });
-      resolve();
-    });
+  const login = (user: User) => {
+    setAuth({ user: user });
   };
 
   const checkSession = async () => {
@@ -66,6 +64,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         isAuthenticated,
         checkSession,
         isLoading,
+        setIsLoading,
       }}
     >
       {children}

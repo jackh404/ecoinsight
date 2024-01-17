@@ -222,7 +222,7 @@ api.add_resource(RecommendationsByUser, '/api/users/<uuid:id>/recommendations')
     
 class EnergyAssessmentQuestions(Resource):
     def get(self):
-        questions = EnergyAssessmentQuestion.query.all()
+        questions = EnergyAssessmentQuestion.query.all()#.sort(key=lambda q: q.sort_order)
         return make_response([question.to_dict() for question in questions], 200)
 api.add_resource(EnergyAssessmentQuestions, '/api/energy_assessment_questions')
 

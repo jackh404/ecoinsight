@@ -106,7 +106,7 @@ const NavBar = () => {
           <input
             type="checkbox"
             className="theme-controller bg-transparent border-none focus:outline-none"
-            value="night"
+            value="winter"
           />
           {/* sun icon */}
           <svg

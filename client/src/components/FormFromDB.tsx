@@ -28,13 +28,16 @@ const FormFromDB = (props: { formUrl: string; handleSubmit: Function }) => {
       return questions.map((question: question) => {
         if (question.type == "select") {
           return (
-            <div key={question.short}>
-              <label htmlFor={question.short}>{question.full}</label>
+            <div key={question.short} className="my-4">
+              <label htmlFor={question.short} className="block">
+                {question.full}
+              </label>
               <select
                 name={question.short}
                 id={question.short}
                 value={formData[question.short] ?? ""}
                 onChange={handleChange}
+                className="w-[95%] md:w-80"
               >
                 {question.options.map(option => (
                   <option key={`${question.short}:${option}`} value={option}>
@@ -46,20 +49,23 @@ const FormFromDB = (props: { formUrl: string; handleSubmit: Function }) => {
           );
         } else if (question.type == "heading") {
           return (
-            <div key={question.short}>
-              <h3>{question.full}</h3>
+            <div key={question.short} className="divider my-8">
+              <h2 className="text-center">{question.full}</h2>
             </div>
           );
         }
         return (
-          <div key={question.short}>
-            <label htmlFor={question.short}>{question.full}</label>
+          <div key={question.short} className="my-4">
+            <label htmlFor={question.short} className="block">
+              {question.full}
+            </label>
             <input
               type={question.type}
               name={question.short}
               id={question.short}
               value={formData[question.short] ?? ""}
               onChange={handleChange}
+              className="w-[95%] md:w-80"
             />
           </div>
         );

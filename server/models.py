@@ -140,6 +140,7 @@ class EnergyAssessmentQuestion (db.Model, SerializerMixin):
     __tablename__ = 'energy_assessment_questions'
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    sort_order = db.Column(db.Integer)
     short = db.Column(db.String, nullable=False)
     full = db.Column(db.String, nullable=False)
     type = db.Column(db.String, nullable=False)

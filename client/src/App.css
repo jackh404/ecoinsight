@@ -22,10 +22,9 @@
 }
 
 * {
-  transition: background-color 0.5s;
   font-family: "Nunito", sans-serif;
+  transition: background-color 0.5s, transform 0.3s;
 }
-
 input::placeholder {
   font-style: italic;
 }
@@ -40,4 +39,34 @@ select {
 
 textarea {
   @apply textarea textarea-primary;
+}
+
+@keyframes ellipsis {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+}
+
+.ellipsis-dot {
+  display: inline-block;
+  opacity: 0;
+  animation: ellipsis 2s infinite;
+}
+
+.ellipsis-dot:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.ellipsis-dot:nth-child(3) {
+  animation-delay: 1s;
 }

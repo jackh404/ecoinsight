@@ -35,11 +35,14 @@ const SignupPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      auth.setIsLoading(true);
       console.log("Submitting form data:", formData);
       const response = await axios.post(`api/users`, formData);
-      await auth.login(response.data.user);
+      auth.login(response.data.user);
       navigate("/dashboard");
+      auth.setIsLoading(false);
     } catch (error) {
+      auth.setIsLoading(false);
       console.error(error);
     }
   };

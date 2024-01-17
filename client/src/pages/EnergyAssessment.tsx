@@ -72,7 +72,7 @@ const EnergyAssessment = () => {
   };
 
   return (
-    <div>
+    <div className="p-8">
       <h1>Energy Assessment</h1>
       <FormFromDB
         formUrl={`/api/energy_assessment_questions`}

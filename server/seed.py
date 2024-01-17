@@ -14,7 +14,8 @@ if __name__ == "__main__":
         questions = []
         #0
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order = 0,
             short = 'lighting',
             full = 'Lighting',
             type = 'heading',
@@ -22,7 +23,8 @@ if __name__ == "__main__":
         ))
         #1
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order = 1,
             short = 'lighting_type',
             full = 'What type of lighting is predominantly used in your home?',
             type = 'select',
@@ -30,7 +32,8 @@ if __name__ == "__main__":
         ))
         #2
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order = 2,
             short = 'light_habits',
             full = 'Do you and your family take care to turn lights off in unoccupied rooms?',
             type = 'select',
@@ -38,7 +41,8 @@ if __name__ == "__main__":
         ))
         #3
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order = 3,
             short = 'daylighting',
             full = 'Do you make use of daylight in your home, turning off lights when enough natural light is present?',
             type = 'select',
@@ -46,7 +50,8 @@ if __name__ == "__main__":
         ))
         #4
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order = 4,
             short = 'landscape_lights',
             full = 'Do you have outdoor lighting that you leave on all night?',
             type = 'select',
@@ -54,7 +59,8 @@ if __name__ == "__main__":
         ))
         #5
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order  = 5,
             short = 'hvac',
             full = 'Heating and Cooling',
             type = 'heading',
@@ -62,7 +68,8 @@ if __name__ == "__main__":
         ))
         #6
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order  = 6,
             short = 'heating_type',
             full = 'What type of heating is primarily used in your home?',
             type = 'select',
@@ -70,7 +77,8 @@ if __name__ == "__main__":
         ))
         #7
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order  = 7,
             short = 'heating_age',
             full = 'How old is your heating system?',
             type = 'number',
@@ -78,7 +86,8 @@ if __name__ == "__main__":
         ))
         #8
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order  = 8,
             short = 'cooling_type',
             full = 'What type of cooling is primarily used in your home?',
             type = 'select',
@@ -86,7 +95,8 @@ if __name__ == "__main__":
         ))
         #9
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order  = 9,
             short = 'cooling_age',
             full = 'How old is your cooling system?',
             type = 'number',
@@ -94,7 +104,8 @@ if __name__ == "__main__":
         ))
         #10
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order  = 10,   
             short = 'deg_between_setpoints',
             full = 'What is the temperature difference between your heating and cooling setpoints?',
             type = 'number',
@@ -102,7 +113,8 @@ if __name__ == "__main__":
         ))
         #11
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order  = 11,
             short = 'filter_changes',
             full = 'Do you regularly change your HVAC system air filters? Typical filter lifecycle is 3 months.',
             type = 'select',
@@ -110,7 +122,8 @@ if __name__ == "__main__":
         ))
         #12
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order  = 12,
             short = 'ductwork_condition',
             full = 'What is the condition of your ductwork?',
             type = 'select',
@@ -118,7 +131,8 @@ if __name__ == "__main__":
         ))
         #13
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order  = 13,
             short = 'structure',
             full = 'Structural',
             type = 'heading',
@@ -126,7 +140,8 @@ if __name__ == "__main__":
         ))
         #14
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order  = 14,
             short = 'roof_color',
             full = "What is the general color of your home's roof?",
             type = 'select',
@@ -134,7 +149,8 @@ if __name__ == "__main__":
         ))
         #15
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order  = 15,
             short = 'window_age',
             full = 'How old are your windows?',
             type = 'number',
@@ -142,7 +158,8 @@ if __name__ == "__main__":
         ))
         #16
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order  = 16,
             short = 'window_type',
             full = 'What type of window is primarily used in your home?',
             type = 'select',
@@ -150,7 +167,8 @@ if __name__ == "__main__":
         ))
         #17
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order  = 17,
             short = 'appliances',
             full = 'Appliances',
             type = 'heading',
@@ -158,7 +176,8 @@ if __name__ == "__main__":
         ))
         #18
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order  = 18,
             short = 'e_star_appliances',
             full = 'Are your home appliances energy star compliant?',
             type = 'select',
@@ -166,7 +185,8 @@ if __name__ == "__main__":
         ))
         #19
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order  = 19,
             short = 'water',
             full = 'Water Use',
             type  = 'heading',
@@ -174,7 +194,8 @@ if __name__ == "__main__":
         ))
         #20
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order  = 20,
             short = 'toilet_flush',
             full = 'Are the toilets in your home low-flow?',
             type = 'select',
@@ -182,7 +203,8 @@ if __name__ == "__main__":
         ))
         #21
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order  = 21,
             short = 'sink_flow',
             full = 'Are the sinks in your home low-flow?',
             type = 'select',
@@ -190,7 +212,8 @@ if __name__ == "__main__":
         ))
         #22
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order  = 22,
             short = 'shower_flow',
             full = 'Are the showers in your home low-flow?',
             type = 'select',
@@ -198,7 +221,8 @@ if __name__ == "__main__":
         ))
         #23
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order  = 23,
             short = 'water_heater_type',
             full = 'What type of water heater do you have?',
             type = 'select',
@@ -206,7 +230,8 @@ if __name__ == "__main__":
         ))
         #24
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order  = 24,
             short = 'water_heater_age',
             full = 'How old is your water heater?',
             type = 'number',
@@ -214,7 +239,8 @@ if __name__ == "__main__":
         ))
         #25
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order  = 25,
             short = 'grounds',
             full = 'Do you have a lawn, garden, or other grounds that you maintain?',
             type = 'select',
@@ -222,7 +248,8 @@ if __name__ == "__main__":
         ))
         #26
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order  = 26,
             short = 'rainwater',
             full = 'Do you collect rainwater for use on your lawn or garden?',
             type = 'select',
@@ -230,7 +257,8 @@ if __name__ == "__main__":
         ))
         #27
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order  = 27,
             short = 'irrigation',
             full = 'Do you irrigate your lawn or garden with drinking water?',
             type = 'select',
@@ -238,7 +266,8 @@ if __name__ == "__main__":
         ))
         #28
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order  = 28,
             short = 'irrigation_controls',
             full = 'If you answered yes to the question above, do you ensure that you do not water pavement, let water evaporate in the heat of the day, or irrigate during/after rain?',
             type = 'select',
@@ -246,7 +275,8 @@ if __name__ == "__main__":
         ))
         #29
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order  = 29,
             short = 're_energy',
             full = 'Renewable Energy',
             type = 'heading',
@@ -254,7 +284,8 @@ if __name__ == "__main__":
         ))
         #30
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            
+            sort_order  = 30,
             short = 're_sources',
             full = 'Do you have any renewable energy sources at your residence?',
             type = 'select',
@@ -262,7 +293,7 @@ if __name__ == "__main__":
         ))
         #31
         questions.append(EnergyAssessmentQuestion(
-            id=str(uuid.uuid4()),
+            sort_order  = 31,
             short = 're_percentage',
             full = 'What percentage of your energy is provided or offset by renewable sources?',
             type = 'number',
@@ -272,7 +303,6 @@ if __name__ == "__main__":
         db.session.commit()
         recommendations = []
         recommendations.append(Recommendation(
-            id=str(uuid.uuid4()),
             title = 'Swap out your light bulbs',
             text = """Incandescent lightbulbs were superseded by fluorescent (and compact fluorescent) lightbulbs, which have been more or less replaced by LEDs. This is largely due to the fact that "LEDs use up to 90% less energy and last up to 25 times longer than traditional incandescent bulbs." - US Department of Energy. 
             While you certainly don't need to replace all your light bulbs at once, you should consider buying LEDs as your older bulbs wear out.""",
@@ -282,7 +312,7 @@ if __name__ == "__main__":
             impact_level = 1
         ))
         recommendations.append(Recommendation(
-            id=str(uuid.uuid4()),
+            
             title = 'Turn off landscaping lights',
             text = 'Landscaping lights, while they may be attractive, create multiple issues in terms of environmental impact. They tend to be fairly high in power consumption, particularly when left on all night. They can also contribute to light pollution, which is harmful to local wildlife. Consider putting these lights on a timer or turning them off entirely.',
             assessment = 'Energy Assessment',
@@ -291,7 +321,7 @@ if __name__ == "__main__":
             impact_level = 1
         ))
         recommendations.append(Recommendation(
-            id=str(uuid.uuid4()),
+            
             title = 'Replace Heating System',
             text = 'Replacing your heating system is a daunting endeavor, but can result in significant energy savings, reducing both environmental impact and long-term costs.',
             assessment = 'Energy Assessment',
@@ -300,7 +330,7 @@ if __name__ == "__main__":
             impact_level = 3
         ))
         recommendations.append(Recommendation(
-            id=str(uuid.uuid4()),
+            
             title = 'Replace cooling system',
             text = 'Replacing your cooling system is a daunting endeavor, but can result in significant energy savings, reducing both environmental impact and long-term costs.',
             assessment = 'Energy Assessment',
@@ -309,7 +339,7 @@ if __name__ == "__main__":
             impact_level = 2
         ))
         recommendations.append(Recommendation(
-            id=str(uuid.uuid4()),
+            
             title = 'Adjust with the Seasons',
             text = 'While it can certainly be pleasant, keeping your home at one set temperature year-round results in significant energy use that is likely unneccessary. Try adjusting your thermostat to allow for a warmer home in the summer and a cooler home in the winter. This may require different habits for indoor dress, but is one of the few steps guaranteed to reduce energy use without upfront cost.',
             assessment = 'Energy Assessment',
@@ -318,7 +348,7 @@ if __name__ == "__main__":
             impact_level = 2
         ))
         recommendations.append(Recommendation(
-            id=str(uuid.uuid4()),
+            
             title = 'Change Those Filters',
             text = "Regularly changing your HVAC system filters is a relatively simple process, though it can be a bit more involved if your system' air handler is in a crawlspace. Filters should be changed every 3-6 months (look at the package). Filters collect dust over time, and can actually put significant strain on your system by blocking airflow if left unchanged. By changing your filters, you keep your HVAC system running more efficiently and prolong its working life.",
             assessment = 'Energy Assessment',
@@ -327,7 +357,7 @@ if __name__ == "__main__":
             impact_level = 1
         ))
         recommendations.append(Recommendation(
-            id=str(uuid.uuid4()),
+            
             title = 'Check and Maintain Your Ductwork',
             text = "Your HVAC system's ductwork is a series of large tubes through which conditioned and/or heated air flows from the air handler into your home and back again. If these ducts are in an unconditioned space, such as an attic, crawlspace, or unfinished basement, special care must be taken to maintain them, as leaks will significantly reduce the energy efficiency of your home.",
             assessment = 'Energy Assessment',
