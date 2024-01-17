@@ -32,27 +32,36 @@ const LoginPage = () => {
     return <h1>Welcome, {auth.user?.display_name}</h1>;
   }
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col mx-auto justify-center items-center gap-4"
-    >
-      <h1>Login</h1>
-      <label htmlFor="username">Username:</label>
-      <input
-        type="text"
-        value={username}
-        onChange={e => setUsername(e.target.value)}
-      />
-      <label htmlFor="password">Password:</label>
-      <input
-        type="password"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-      />
-      <button type="submit" className="btn btn-primary">
-        Login
+    <div className="flex flex-col mx-auto items-center gap-8 md:flex-row justify-evenly">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col justify-center items-center gap-4"
+      >
+        <h1>Login</h1>
+        <label htmlFor="username">Username:</label>
+        <input
+          type="text"
+          value={username}
+          onChange={e => setUsername(e.target.value)}
+        />
+        <label htmlFor="password">Password:</label>
+        <input
+          type="password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+        />
+        <button type="submit" className="btn btn-primary">
+          Login
+        </button>
+      </form>
+      <h2>Or</h2>
+      <button
+        className="btn btn-primary btn-lg"
+        onClick={() => navigate("/signup")}
+      >
+        Sign Up
       </button>
-    </form>
+    </div>
   );
 };
 

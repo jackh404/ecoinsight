@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 
 import { Project, ProjectUpdate } from "../../types.ts";
-const ProjectCard = (props: { project: Project }) => {
-  const { title, goals, created_at, project_updates } = props.project;
+const ProjectShowCaseCard = (props: { project: Project }) => {
+  const { title, goals, created_at, project_updates, user } = props.project;
   const upDates = project_updates.map((update: ProjectUpdate) =>
     new Date(update.created_at).getTime()
   );
@@ -11,10 +11,11 @@ const ProjectCard = (props: { project: Project }) => {
     lastUpdate = new Date(Math.max(...upDates)).toDateString();
   }
   return (
-    <Link to={`/project/${props.project.id}`} className="w-[70%] md:w-[100%]">
-      <div className="card bg-secondary text-secondary-content h-full border-2 border-secondary-content shadow-md">
+    <Link to={`/project/${props.project.id}`}>
+      <div className="card bg-secondary text-secondary-content w-[70%] md:w-[100%]">
         <div className="card-body">
           <h3>{title}</h3>
+          <p>- {user.display_name}</p>
           <p>Goals: {goals}</p>
           <p>Started: {new Date(created_at).toDateString()}</p>
           <p className="italic">
@@ -26,4 +27,4 @@ const ProjectCard = (props: { project: Project }) => {
   );
 };
 
-export default ProjectCard;
+export default ProjectShowCaseCard;

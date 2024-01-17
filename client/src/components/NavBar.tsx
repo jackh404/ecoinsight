@@ -41,7 +41,10 @@ const NavBar = () => {
           <NavLink to={"/energy-assessment"}>Energy Assessment</NavLink>
         </li>
         <li>
-          <NavLink to={"/projects"}>Projects</NavLink>
+          <NavLink to={"/projects"}>My Projects</NavLink>
+        </li>
+        <li>
+          <NavLink to={"/showcase"}>Project Showcase</NavLink>
         </li>
         <li>
           <a onClick={e => logout(e)}>Logout</a>
@@ -50,8 +53,8 @@ const NavBar = () => {
     );
   };
   return (
-    <div className="navbar bg-neutral text-neutral-content">
-      <div className="navbar-start">
+    <nav className="flex flex-row justify-between bg-neutral text-neutral-content rounded-b-lg">
+      <div className="flex flex-row items-center">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
             <svg
@@ -91,16 +94,20 @@ const NavBar = () => {
           </h3>
         </Link>
       </div>
-      <div className="navbar-center hidden lg:flex">
+      <div className="hidden lg:flex items-center">
         {auth && auth.isAuthenticated()
           ? authMenu("menu menu-horizontal px-1")
           : guestMenu("menu menu-horizontal px-1")}
       </div>
-      <div className="navbar-end">
+      <div className="inline-flex mr-2">
         {/* Dark Mode Toggle */}
         <label className="swap swap-rotate">
           {/* this hidden checkbox controls the state */}
-          <input type="checkbox" className="theme-controller" value="forest" />
+          <input
+            type="checkbox"
+            className="theme-controller bg-transparent border-none focus:outline-none"
+            value="night"
+          />
           {/* sun icon */}
           <svg
             className="swap-on fill-current w-10 h-10"
@@ -119,7 +126,7 @@ const NavBar = () => {
           </svg>
         </label>
       </div>
-    </div>
+    </nav>
   );
 };
 

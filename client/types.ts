@@ -38,6 +38,7 @@ type Project = {
   created_at: string;
   completed_at: string;
   project_updates: ProjectUpdate[];
+  user: User;
 };
 type ProjectUpdate = {
   id: string;

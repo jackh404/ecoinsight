@@ -45,10 +45,10 @@ const SignupPage: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>Signup</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
+    <div className="flex flex-col mx-auto items-center gap-8 md:flex-row justify-evenly">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <h1>Sign Up</h1>
+        <div className="flex items-center justify-between">
           <label htmlFor="username">Username:</label>
           <input
             type="text"
@@ -59,7 +59,7 @@ const SignupPage: React.FC = () => {
             required
           />
         </div>
-        <div>
+        <div className="flex items-center justify-between">
           <label htmlFor="email">Email:</label>
           <input
             type="email"
@@ -70,7 +70,7 @@ const SignupPage: React.FC = () => {
             required
           />
         </div>
-        <div>
+        <div className="flex items-center justify-between">
           <label htmlFor="password">Password:</label>
           <input
             type="password"
@@ -81,7 +81,7 @@ const SignupPage: React.FC = () => {
             required
           />
         </div>
-        <div>
+        <div className="flex items-center justify-between">
           <label htmlFor="first_name">First Name:</label>
           <input
             type="text"
@@ -91,7 +91,7 @@ const SignupPage: React.FC = () => {
             onChange={handleChange}
           />
         </div>
-        <div>
+        <div className="flex items-center justify-between">
           <label htmlFor="last_name">Last Name:</label>
           <input
             type="text"
@@ -101,7 +101,7 @@ const SignupPage: React.FC = () => {
             onChange={handleChange}
           />
         </div>
-        <div>
+        <div className="flex items-center justify-between">
           <label htmlFor="display_name">Display Name:</label>
           <input
             type="text"
@@ -112,8 +112,18 @@ const SignupPage: React.FC = () => {
             required
           />
         </div>
-        <button type="submit">Signup</button>
+        <button type="submit" className="btn btn-primary">
+          Signup
+        </button>
       </form>
+      <h2>Or</h2>
+      <button
+        type="button"
+        className="btn btn-primary btn-lg"
+        onClick={() => navigate("/login")}
+      >
+        Login
+      </button>
     </div>
   );
 };

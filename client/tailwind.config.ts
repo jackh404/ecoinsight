@@ -29,6 +29,6 @@ export default {
     }),
   ],
   daisyui: {
-    themes: ["nord", "forest"],
+    themes: ["cupcake", "night"],
   },
 };

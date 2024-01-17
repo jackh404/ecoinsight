@@ -29,3 +29,15 @@
 input::placeholder {
   font-style: italic;
 }
+
+input {
+  @apply input input-bordered input-primary mx-2;
+}
+
+select {
+  @apply select select-primary;
+}
+
+textarea {
+  @apply textarea textarea-primary;
+}

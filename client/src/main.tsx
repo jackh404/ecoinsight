@@ -14,6 +14,7 @@ import EnergyAssessment from "./pages/EnergyAssessment.tsx";
 import AssessmentResults from "./pages/AssessmentResults.tsx";
 import Projects from "./pages/Projects.tsx";
 import ProjectPage from "./pages/ProjectPage.tsx";
+import ProjectShowcase from "./pages/ProjectShowcase.tsx";
 
 const router = createBrowserRouter([
   {
@@ -70,6 +71,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <ProjectPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "showcase",
+        element: (
+          <ProtectedRoute>
+            <ProjectShowcase />
           </ProtectedRoute>
         ),
       },
