@@ -56,6 +56,8 @@ class Project(db.Model, SerializerMixin):
     title = db.Column(db.String, nullable=False)
     goals = db.Column(db.Text, nullable=False)
     description = db.Column(db.Text, nullable=False)
+    category = db.Column(db.String)
+    image = db.Column(db.String)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     completed_at = db.Column(db.DateTime)
     
@@ -69,6 +71,12 @@ class Project(db.Model, SerializerMixin):
         if not isinstance(title, str) or len(title) < 3:
             raise ValueError('Project title must be a string longer than 3 characters')
         return title
+    
+    @validates('category')
+    def validates_category(self, key, category):
+        if category not in ['Energy', 'Water', 'Waste', 'Food', 'Transportation','Land Use']:
+            raise ValueError('Project category must be one of: Energy, Water, Waste, Food, Transportation, Land Use')
+        return category
     
 class ProjectUpdate(db.Model, SerializerMixin):
     __tablename__ = 'project_updates'

@@ -2,17 +2,23 @@
 #server/seed.py
 import uuid
 from sqlalchemy import text
+from random import choice as rc
 
 from app import app
-from models import db, EnergyAssessmentQuestion, Recommendation, EnergyAssessment
+from models import db, EnergyAssessmentQuestion, Recommendation, EnergyAssessment, ProjectUpdate, Project, User
 if __name__ == "__main__":
     with app.app_context():
+        users = User.query.all()
+        print("Deleting table data...")
         db.session.execute(text("DELETE FROM user_recommendations WHERE recommendation_id IN (SELECT id FROM recommendations)"))
         Recommendation.query.delete()
         EnergyAssessmentQuestion.query.delete()
         EnergyAssessment.query.delete()
+        ProjectUpdate.query.delete()
+        Project.query.delete()
         questions = []
         #0
+        print("adding questions...")
         questions.append(EnergyAssessmentQuestion(
             
             sort_order = 0,
@@ -301,6 +307,7 @@ if __name__ == "__main__":
         ))
         db.session.add_all(questions)
         db.session.commit()
+        print("Questions added. Adding recommendations...")
         recommendations = []
         recommendations.append(Recommendation(
             title = 'Swap out your light bulbs',
@@ -367,3 +374,115 @@ if __name__ == "__main__":
         ))
         db.session.add_all(recommendations)
         db.session.commit()
+        print("Recommendations added. Adding Projects...")
+        projects = []
+        projects.append(Project(
+            user = rc(users),
+            title = "Home Energy Audit",
+            goals = "Identify energy inefficiencies, reduce electricity consumption.",
+            description = "Conduct a thorough assessment of my home's energy use, including checking insulation levels, finding air leaks, and evaluating heating and cooling systems. Use this information to make targeted improvements, such as sealing leaks and adding insulation, which will lower my energy bills and reduce my carbon footprint.",
+            category = "Energy",
+        ))
+        projects.append(Project(
+            user = rc(users),
+            title = "Rainwater Harvesting System",
+            goals = "Conserve water, reduce reliance on municipal water.",
+            description = "Install a rainwater harvesting system to collect and store rainwater from my roof. This water can be used for gardening, washing cars, or flushing toilets. It’s an effective way to conserve water and reduce my household's impact on local water resources.",
+            category = "Water",
+        ))
+        projects.append(Project(
+            user = rc(users),
+            title = "Zero-Waste Kitchen",
+            goals = "Minimize waste, promote sustainable living.",
+            description = "Transition my kitchen to a zero-waste operation by eliminating single-use plastics, composting organic waste, and buying in bulk. I'll focus on reusable containers and shop for local, unpackaged produce to significantly reduce the amount of trash I produce.",
+            category = "Waste",
+        ))
+        projects.append(Project(
+            user = rc(users),
+            title = "Solar Power Installation",
+            goals = "Reduce reliance on fossil fuels, lower electricity bills.",
+            description = "Install solar panels on my roof to harness the power of the sun. This project will decrease my dependence on non-renewable energy sources and can provide long-term savings on energy costs.",
+            category = "Energy",
+            image = "images/bill-mead-wmaP3Tl80ww-unsplash.jpg"
+        ))
+        projects.append(Project(
+            user = rc(users),
+            title = "Sustainable Landscaping",
+            goals = "Enhance biodiversity, reduce water usage.",
+            description = "Redesign my garden using drought-tolerant, native plants that require less water and maintenance. This will not only conserve water but also provide a habitat for local wildlife.",
+            category = "Land Use",
+        ))
+        projects.append(Project(
+            user = rc(users),
+            title = "DIY Home Insulation",
+            goals = "Increase energy efficiency, maintain temperature control.",
+            description = " Improve my home's insulation by sealing windows and doors, adding insulation to the attic, and using thermal curtains. These steps will help maintain a consistent temperature, reducing the need for heating and cooling.",
+            category = "Energy",
+        ))
+        projects.append(Project(
+            user = rc(users),
+            title = "Green Transportation Plan",
+            goals = "Reduce carbon emissions, promote physical health.",
+            description = "Commit to using greener modes of transportation for local trips. This includes walking, cycling, or using public transportation more often, and possibly investing in an electric or hybrid vehicle.",
+            category = "Transportation",
+        ))
+        projects.append(Project(
+            user = rc(users),
+            title = "Home Composting Setup",
+            goals = "Reduce food waste, produce natural fertilizer.",
+            description = " Start a compost bin to turn kitchen scraps and yard waste into rich compost. This will not only reduce my garbage output but also provide excellent fertilizer for my garden.",
+            category = "Waste",
+            image = "/images/fall-3755125_1280.jpg"
+        ))
+        projects.append(Project(
+            user = rc(users),
+            title = "Energy-Efficient Lighting Overhaul",
+            goals = "Reduce electricity usage, lower energy bills.",
+            description = "Replace all incandescent bulbs in my home with LED or CFL bulbs. These energy-efficient bulbs last longer and use significantly less electricity.",
+            category = "Energy",
+        ))
+        projects.append(Project(
+            user = rc(users),
+            title = "Water-Saving Bathroom Makeover",
+            goals = "Conserve water, reduce utility bills.",
+            description = "Install low-flow showerheads and faucets, and consider a dual-flush or low-flow toilet. These changes can dramatically cut down on water usage without sacrificing functionality.",
+            category = "Water",
+        ))
+        projects.append(Project(
+            user = rc(users),
+            title = " Household Hazardous Waste Disposal",
+            goals = "Safely dispose of hazardous materials, prevent environmental damage.",
+            description = " Collect and properly dispose of household hazardous waste such as batteries, paint, and electronics. This will prevent them from ending up in landfills and causing environmental harm.",
+            category = "Waste",
+        ))
+        projects.append(Project(
+            user = rc(users),
+            title = "Project: Plant-Based Diet Transition",
+            goals = "Reduce carbon footprint, promote personal health.",
+            description = "Gradually transition to a more plant-based diet, focusing on locally sourced fruits, vegetables, and grains. This will reduce my carbon footprint associated with meat consumption and support local agriculture.",
+            category = "Food",
+        ))
+        projects.append(Project(
+            user = rc(users),
+            title = "Home Office Energy Efficiency",
+            goals = "Reduce energy consumption in remote work.",
+            description = "Optimize my home office for energy efficiency by using smart power strips, setting computers to energy-saving modes, and utilizing natural light.",
+            category = "Energy",
+        ))
+        projects.append(Project(
+            user = rc(users),
+            title = "Energy-Smart Appliances Upgrade",
+            goals = "Increase energy efficiency, modernize home appliances.",
+            description = "Replace old, inefficient appliances with Energy Star-rated models. This includes refrigerators, washers, and dryers, which will use less energy and water.",
+            category = "Energy",
+        ))
+        projects.append(Project(
+            user = rc(users),
+            title = "Eco-Friendly Cleaning Regimen",
+            goals = "Reduce chemical usage, create a healthier living environment.",
+            description = "Switch to eco-friendly cleaning products or make my own from natural ingredients like vinegar and baking soda. This will reduce the number of harmful chemicals in my home and is better for the environment.",
+            category = "Waste",
+        ))
+        db.session.add_all(projects)
+        db.session.commit()
+        print("Done!")

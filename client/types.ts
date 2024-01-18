@@ -39,6 +39,8 @@ type Project = {
   completed_at: string;
   project_updates: ProjectUpdate[];
   user: User;
+  image: string;
+  category: string;
 };
 type ProjectUpdate = {
   id: string;

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import { Project, ProjectUpdate } from "../../types.ts";
 import NewProjectUpdateForm from "../components/NewProjectUpdateForm.tsx";
+import Loading from "../components/Loading.tsx";
 
 const ProjectPage = () => {
   const { id } = useParams();
@@ -57,15 +58,30 @@ const ProjectPage = () => {
     );
   }
   return (
-    <div className="p-8 flex flex-col mx-auto items-center gap-4">
-      <h1>{project.title}</h1>
-      <h3>{project.goals}</h3>
-      <p>{project.description}</p>
-      <div>{updatesDisplay}</div>
-      <div>
-        <h2 className="mb-4">Have an update? Let us know how it's going!</h2>
-        <NewProjectUpdateForm handleSubmit={handleSubmit} />
-      </div>
+    <div className="p-8 lg:w-2/3 flex flex-col mx-auto items-center gap-4">
+      {project ? (
+        <>
+          {project.image ? (
+            <img
+              src={project.image}
+              className="max-w-xl lg:max-w-3xl rounded-2xl shadow-xl"
+              alt={project.title}
+            />
+          ) : null}
+          <h1>{project.title}</h1>
+          <h3>{project.goals}</h3>
+          <p>{project.description}</p>
+          <div>{updatesDisplay}</div>
+          <div>
+            <h2 className="mb-4">
+              Have an update? Let us know how it's going!
+            </h2>
+            <NewProjectUpdateForm handleSubmit={handleSubmit} />
+          </div>
+        </>
+      ) : (
+        <Loading />
+      )}
     </div>
   );
 };

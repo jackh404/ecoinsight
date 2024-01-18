@@ -4,13 +4,15 @@ import { useAuth } from "../context/AuthContext.tsx";
 import ProjectCard from "../components/ProjectCard.tsx";
 import { Project } from "../../types.ts";
 import NewProjectForm from "../components/NewProjectForm.tsx";
+import Loading from "../components/Loading.tsx";
 
 const Projects = () => {
   const auth = useAuth()!;
   let projectDisplay = null;
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>,
-    formData: FormData
+    formData: FormData,
+    resetForm: Function
   ) => {
     e.preventDefault();
     try {
@@ -19,8 +21,16 @@ const Projects = () => {
         ...formData,
       });
       console.log(response);
+      if (response.status >= 200 && response.status < 300) {
+        resetForm();
+        auth.login({
+          ...auth.user!,
+          projects: [...auth.user!.projects, response.data],
+        });
+      }
     } catch (error) {
       console.error(error);
+      alert("A server error occured, please try again.");
     }
   };
   if (auth.user?.projects.length) {
@@ -43,8 +53,14 @@ const Projects = () => {
         completed projects and submit new ones. Click a project title to see its
         full details and submit an update to it when you make progress!
       </p>
-      {projectDisplay}
-      <NewProjectForm handleSubmit={handleSubmit} />
+      {auth.user ? (
+        <>
+          {projectDisplay}
+          <NewProjectForm handleSubmit={handleSubmit} />
+        </>
+      ) : (
+        <Loading />
+      )}
     </div>
   );
 };
