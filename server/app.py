@@ -14,7 +14,7 @@ load_dotenv()
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-@app.route('/*')
+@app.route('/')
 def index():
     return render_template('index.html')
 
