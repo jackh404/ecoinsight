@@ -1,5 +1,5 @@
 {
-  "buildCommand": "pip install -r requirements.txt && npm install --prefix client && npm run build --prefix client",
+  "version": 2,
   "builds": [{ "src": "/server/app.py", "use": "@vercel/python" }],
   "rewrites": [{ "source": "/(.*)", "destination": "/server/app.py" }]
 }
