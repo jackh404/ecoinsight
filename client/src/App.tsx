@@ -20,7 +20,7 @@ function App() {
       <header>
         <NavBar />
       </header>
-      <main className="bg-base-200 min-h-svh w-full">
+      <main className="bg-base-200 min-h-svh w-full text-base-content">
         <Outlet />
       </main>
       <footer className="footer footer-center p-4 bg-black text-neutral-content">

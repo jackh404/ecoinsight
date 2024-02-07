@@ -5,9 +5,9 @@ const Home = () => {
   const nav = useNavigate();
   return (
     <div className="bg-environmental-protection bg-cover bg-center min-h-svh z-0">
-      <div className="bg-base-100 bg-opacity-70 min-h-svh p-8 z-1 ">
+      <div className="bg-base-100 bg-opacity-70 min-h-svh p-8 z-1">
         <div className="flex flex-col lg:flex-row z-2 mt-8">
-          <div className="rounded-xl lg:basis-1/6 grow text-base-100-content p-6 text-center m-2 flex flex-col justify-between glass">
+          <div className="rounded-xl lg:basis-1/6 grow p-6 text-center m-2 flex flex-col justify-between glass">
             <h1 className="text-3xl font-bold">Assess</h1>
             <hr />
             <p>
