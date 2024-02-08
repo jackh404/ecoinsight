@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 #server/seed.py
-import uuid
 from sqlalchemy import text
 from random import choice as rc
 

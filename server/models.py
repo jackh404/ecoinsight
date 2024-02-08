@@ -1,8 +1,8 @@
 #server/models.py
-from flask_sqlalchemy import SQLAlchemy
+
 from sqlalchemy.orm import validates
 from sqlalchemy_serializer import SerializerMixin
-from sqlalchemy.ext.associationproxy import association_proxy
+
 from sqlalchemy.ext.hybrid import hybrid_property
 from config import db, metadata, bcrypt
 import uuid

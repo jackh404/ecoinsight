@@ -5,10 +5,9 @@ from dotenv import load_dotenv
 from sqlalchemy.exc import IntegrityError
 import jwt
 import datetime
-import uuid
 
-from config import db, migrate, app, api
-from models import User, Project, ProjectUpdate, Recommendation, EnergyAssessment, user_recomendations, EnergyAssessmentQuestion
+from config import db, app, api
+from models import User, Project, ProjectUpdate, Recommendation, EnergyAssessment, EnergyAssessmentQuestion
 
 load_dotenv()
 
