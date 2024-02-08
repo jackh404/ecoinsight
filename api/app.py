@@ -1,12 +1,13 @@
-from flask import request, make_response, session, render_template
+from flask import request, make_response, session, render_template, send_from_directory
 from flask_restful import Resource
 import os
 from dotenv import load_dotenv
 from sqlalchemy.exc import IntegrityError
 import jwt
 import datetime
-from config import db, app, api
-from models import User, Project, ProjectUpdate, Recommendation, EnergyAssessment, user_recomendations, EnergyAssessmentQuestion
+
+from .config import db, app, api
+from .models import User, Project, ProjectUpdate, Recommendation, EnergyAssessment, EnergyAssessmentQuestion
 
 load_dotenv()
 
@@ -15,6 +16,10 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/<path:path>')
+def serve_static(path):
+    return send_from_directory(app.static_folder, path)
 
 ########################################################
 #                   USER ROUTES                        #

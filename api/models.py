@@ -3,9 +3,10 @@ from sqlalchemy.orm import validates
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
-from config import db, metadata, bcrypt
 import uuid
 from sqlalchemy.dialects.postgresql import UUID
+
+from .config import db, metadata, bcrypt
 
 user_recomendations = db.Table(
     'user_recommendations',

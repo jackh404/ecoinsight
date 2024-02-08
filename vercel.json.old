@@ -1,5 +1,41 @@
 {
   "version": 2,
-  "builds": [{ "src": "/server/app.py", "use": "@vercel/python" }],
-  "rewrites": [{ "source": "/(.*)", "destination": "/server/app.py" }]
+  "functions": {
+    "api/app.py": {
+      "memory": 3008,
+      "maxDuration": 30
+    },
+    "api/*.py": {
+      "memory": 3008,
+      "maxDuration": 30
+    }
+  },
+  "builds": [
+    {
+      "src": "api/app.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "50mb"
+      }
+    },
+    {
+      "src": "client/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "outputDirectory": "client/dist"
+      }
+    }
+  ],
+  "buildCommand": "pip install -r requirements.txt && npm install --prefix client && npm run build --prefix client",
+  "outputDirectory": "client/dist",
+  "rewrites": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/app.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/client/dist/"
+    }
+  ]
 }

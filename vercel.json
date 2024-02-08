@@ -1,5 +1,14 @@
 {
   "buildCommand": "pip install -r requirements.txt && npm install --prefix client && npm run build --prefix client",
-  "builds": [{ "src": "/server/app.py", "use": "@vercel/python" }],
-  "rewrites": [{ "source": "/(.*)", "destination": "/server/app.py" }]
+  "outputDirectory": "client/dist",
+  "functions": {
+    "api/app.py": {
+      "memory": 3008,
+      "maxDuration": 30
+    }
+  },
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/app.py" },
+    { "source": "/(.*)", "destination": "/client/dist/" }
+  ]
 }
