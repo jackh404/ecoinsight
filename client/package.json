@@ -9,17 +9,11 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
-  "engines": {
-    "node": "18.x"
-  },
   "dependencies": {
-    "@swc/core": "^1.4.0",
-    "@tinymce/tinymce-react": "^4.3.2",
     "axios": "^1.6.5",
     "dotenv": "^16.3.1",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
-    "node": "^18.18.0",
     "postcss-import": "^16.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

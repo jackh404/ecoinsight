@@ -1,5 +1,5 @@
 {
-  "buildCommand": "pip install -r requirements.txt && npm rebuild @swc/core && npm install --prefix client && npm run build --prefix client",
+  "buildCommand": "pip install -r requirements.txt && npm install --prefix client && npm run build --prefix client",
   "outputDirectory": "client/dist",
   "functions": {
     "api/app.py": {
