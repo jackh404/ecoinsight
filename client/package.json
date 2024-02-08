@@ -13,6 +13,7 @@
     "node": "18.x"
   },
   "dependencies": {
+    "@swc/core": "^1.4.0",
     "@tinymce/tinymce-react": "^4.3.2",
     "axios": "^1.6.5",
     "dotenv": "^16.3.1",
