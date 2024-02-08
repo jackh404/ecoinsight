@@ -23,7 +23,6 @@ pyjwt = "*"
 [dev-packages]
 
 [requires]
-python_version = "3.8"
 python-dotenv = "*"
 psycopg2-binary = "*"
 requests = "*"
