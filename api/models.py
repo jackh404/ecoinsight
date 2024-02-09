@@ -4,7 +4,7 @@ from sqlalchemy.orm import validates
 from sqlalchemy_serializer import SerializerMixin
 
 from sqlalchemy.ext.hybrid import hybrid_property
-from config import db, metadata, bcrypt
+from .config import db, metadata, bcrypt
 import uuid
 from sqlalchemy.dialects.postgresql import UUID
 

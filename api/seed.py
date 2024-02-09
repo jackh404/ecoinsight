@@ -4,7 +4,7 @@ from sqlalchemy import text
 from random import choice as rc
 
 from api.index import app
-from models import db, EnergyAssessmentQuestion, Recommendation, EnergyAssessment, ProjectUpdate, Project, User
+from .models import db, EnergyAssessmentQuestion, Recommendation, EnergyAssessment, ProjectUpdate, Project, User
 if __name__ == "__main__":
     with app.app_context():
         users = User.query.all()
