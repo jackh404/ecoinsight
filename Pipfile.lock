@@ -1,13 +1,13 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "480973f51afb605886093d595044e63b54fa13f352213e9190bbbdb819fde69d"
+            "sha256": "8c70e0c2f5f5c0c8086df99e8ce983fd3dcf5c7f09099b14f96648f9f04ce987"
         },
         "pipfile-spec": 6,
         "requires": {
             "psycopg2-binary": "*",
             "python-dotenv": "*",
-            "python_version": "3.8",
+            "python_version": "3.9",
             "requests": "*"
         },
         "sources": [
@@ -534,7 +534,7 @@
                 "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926",
                 "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==1.16.0"
         },
         "sqlalchemy": {
