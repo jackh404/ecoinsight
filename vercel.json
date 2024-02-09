@@ -1,14 +1,8 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "client/dist",
   "builds": [
     {
       "src": "api/index.py",
       "use": "@vercel/python"
-    },
-    {
-      "src": "client/src/main.tsx",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
