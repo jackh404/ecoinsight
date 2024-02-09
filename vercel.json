@@ -1,16 +1,16 @@
 {
   "installCommand": "npm install --prefix client && pip install -r requirements.txt",
-  "buildCommand": "npm run build --prefix client",
+  "buildCommand": "npm run build --prefix client && gunicorn --chdir api index:app",
   "outputDirectory": "client/dist",
   "functions": {
     "api/index.py": {
       "maxDuration": 10
     }
   },
-  "routes": [
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "api/index.py"
+      "source": "/(.*)",
+      "destination": "/api/index"
     }
   ]
 }

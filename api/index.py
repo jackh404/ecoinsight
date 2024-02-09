@@ -6,8 +6,8 @@ from sqlalchemy.exc import IntegrityError
 import jwt
 import datetime
 
-from .config import db, app, api
-from .models import User, Project, ProjectUpdate, Recommendation, EnergyAssessment, EnergyAssessmentQuestion
+from config import db, app, api
+from models import User, Project, ProjectUpdate, Recommendation, EnergyAssessment, EnergyAssessmentQuestion
 
 load_dotenv()
 

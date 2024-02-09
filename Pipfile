@@ -16,6 +16,7 @@ Werkzeug = "*"
 flask-migrate = "*"
 flask-bcrypt = "*"
 pyjwt = "*"
+gunicorn = "*"
 
 [dev-packages]
 
