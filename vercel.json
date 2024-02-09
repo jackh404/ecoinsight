@@ -1,16 +1,21 @@
 {
   "installCommand": "npm install --prefix client && pip install -r requirements.txt",
-  "buildCommand": "npm run build --prefix client && gunicorn --chdir api index:app",
+  "buildCommand": "npm run build --prefix client",
   "outputDirectory": "client/dist",
-  "functions": {
-    "api/index.py": {
-      "maxDuration": 10
-    }
-  },
-  "rewrites": [
+  "builds": [
     {
-      "source": "/(.*)",
-      "destination": "/api/index"
+      "src": "api/index.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "client/src/main.tsx",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "api/index.py"
     }
   ]
 }
