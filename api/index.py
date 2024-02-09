@@ -13,9 +13,10 @@ load_dotenv()
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
+    return render_template("index.html")
 
 ########################################################
 #                   USER ROUTES                        #
@@ -265,6 +266,3 @@ class EnergyAssessments(Resource):
 api.add_resource(EnergyAssessments, '/api/energy_assessments')    
 
 debug = os.getenv('SERVER_DEBUG')
-
-if __name__ == '__main__':
-    app.run(port=5555, debug = debug)
