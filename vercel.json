@@ -1,4 +1,12 @@
 {
+  "installCommand": "npm install --prefix client && pip install -r requirements.txt",
+  "buildCommand": "npm run build --prefix client",
+  "outputDirectory": "client/dist",
+  "functions": {
+    "api/index.py": {
+      "maxDuration": 10
+    }
+  },
   "routes": [
     {
       "src": "/(.*)",
