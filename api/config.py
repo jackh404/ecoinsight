@@ -7,6 +7,7 @@ from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 from flask_bcrypt import Bcrypt
+from flask_cors import CORS
 
 load_dotenv()
 
@@ -23,7 +24,15 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SESSION_COOKIE_NAME'] = 'id'
 app.config['SESSION_COOKIE_SECURE'] = True  
 app.config['SESSION_COOKIE_HTTPONLY'] = True
-app.config['SESSION_COOKIE_SAMESITE'] = 'None' 
+app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+app.json.compact = False
+cors = CORS(app, supports_credentials=True, resources={
+    r"/*": {
+       "origins": ["http://127.0.0.1:3000","https://ecoinsight.vercel.app","http://localhost:3000"],
+       "methods": ["GET", "POST", "PATCH", "PUT", "DELETE"],
+       "allow_headers": ["Content-Type", "Authorization"]
+    }
+})
 
 metadata = MetaData(naming_convention={
     "ix": "ix_%(column_0_label)s",
