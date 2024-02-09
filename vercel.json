@@ -1,15 +1,8 @@
 {
-  "installCommand": "npm install --prefix client && pip install -r requirements.txt",
-  "buildCommand": "npm run build --prefix client",
-  "outputDirectory": "client/dist",
   "builds": [
     {
       "src": "api/index.py",
       "use": "@vercel/python"
-    },
-    {
-      "src": "client/src/main.tsx",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
