@@ -6,11 +6,12 @@ import ProjectShowCaseCard from "../components/ProjectShowCaseCard.tsx";
 import Loading from "../components/Loading.tsx";
 
 const ProjectShowcase = () => {
+  const server: string = import.meta.env.VITE_BACK_END_SERVER;
   const [projects, setProjects] = useState([] as Project[]);
 
   const fetchProjects = async () => {
     try {
-      const response = await axios.get(`/api/projects`);
+      const response = await axios.get(`${server}/projects`);
       console.log(response);
       setProjects(response.data);
     } catch (error) {

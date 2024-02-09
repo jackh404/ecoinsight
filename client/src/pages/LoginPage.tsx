@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 import { useAuth } from "../context/AuthContext.tsx";
 
 const LoginPage = () => {
+  const server: string = import.meta.env.VITE_BACK_END_SERVER;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const auth = useAuth()!;
@@ -13,7 +14,7 @@ const LoginPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`api/login`, {
+      const response = await axios.post(`${server}/login`, {
         username,
         password,
       });

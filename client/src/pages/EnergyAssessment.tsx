@@ -7,6 +7,7 @@ import { useAuth } from "../context/AuthContext.tsx";
 import Modal from "../components/Modal.tsx";
 
 const EnergyAssessment = () => {
+  const server: string = import.meta.env.VITE_BACK_END_SERVER;
   const auth = useAuth()!;
   const [modalContents, setModalContents] = useState<ReactNode>(
     <h3 className="italic">Processing...</h3>
@@ -19,7 +20,7 @@ const EnergyAssessment = () => {
     (
       document.getElementById("energy-assessment-modal") as HTMLDialogElement
     )?.showModal();
-    var response = await axios.post(`api/energy_assessments`, {
+    var response = await axios.post(`${server}/energy_assessments`, {
       user_id: auth.user?.id,
       ...formData,
     });
@@ -27,7 +28,7 @@ const EnergyAssessment = () => {
     if (response.status >= 200 && response.status < 300) {
       try {
         const recommendationUpdate = await axios.get(
-          `api/users/${auth.user?.id}/recommendations`
+          `${server}/users/${auth.user?.id}/recommendations`
         );
         auth.login({
           ...auth.user!,
@@ -75,7 +76,7 @@ const EnergyAssessment = () => {
     <div className="p-8">
       <h1>Energy Assessment</h1>
       <FormFromDB
-        formUrl={`/api/energy_assessment_questions`}
+        formUrl={`${server}/energy_assessment_questions`}
         handleSubmit={handleSubmit}
       />
       <Modal id="energy-assessment-modal">{modalContents}</Modal>

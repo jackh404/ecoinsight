@@ -7,11 +7,12 @@ import NewProjectUpdateForm from "../components/NewProjectUpdateForm.tsx";
 import Loading from "../components/Loading.tsx";
 
 const ProjectPage = () => {
+  const server: string = import.meta.env.VITE_BACK_END_SERVER;
   const { id } = useParams();
   const [project, setProject] = useState({} as Project);
   const fetchProject = async () => {
     try {
-      const response = await axios.get(`/api/projects/${id}`);
+      const response = await axios.get(`${server}/projects/${id}`);
       console.log(response);
       setProject(response.data);
     } catch (error) {
@@ -24,7 +25,7 @@ const ProjectPage = () => {
   ) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`/api/project_updates`, {
+      const response = await axios.post(`${server}/project_updates`, {
         project_id: id,
         ...formData,
       });
