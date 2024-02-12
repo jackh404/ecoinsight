@@ -21,40 +21,6 @@ def catch_all(path):
 ########################################################
 #                   USER ROUTES                        #
 ########################################################
-
-class Signup(Resource):
-    def post(self):
-        json = request.json
-        try:
-            user = User(
-                username = json['username'],
-                email = json['email'],
-                first_name = json['first_name'],
-                last_name = json['last_name'],
-                display_name = json['display_name'])
-            user.password_hash = json['password']
-            db.session.add(user)
-            db.session.commit()
-            session['user_id'] = user.id
-            token = jwt.encode({
-                    'user_id': user.id,
-                    'exp': datetime.utcnow() + datetime.timedelta(hours=24)
-                }, os.environ.get('SECRET_KEY'), algorithm="HS256")
-            resp = make_response({'user':user.to_dict(),
-                                    'message': 'Login successful'}, 200)
-            resp.set_cookie('jwt', token, httponly=True)
-            return resp
-        except ValueError as ve:
-            db.session.rollback()
-            return make_response({"message": str(ve)}, 422)
-        except IntegrityError as ie:
-            db.session.rollback()
-            return make_response({"message": str(ie)}, 422)
-        except Exception as e:
-            db.session.rollback()
-            return make_response({"message": str(e)}, 500)
-api.add_resource(Signup, '/signup')
-        
 class CheckSession(Resource):
     def get(self):
         token = request.cookies.get('jwt')
@@ -84,7 +50,7 @@ class Login(Resource):
                     algorithm="HS256")
                 resp = make_response({'user':user.to_dict(),
                                       'message': 'Login successful'}, 200)
-                resp.set_cookie('jwt', token, httponly=True)
+                resp.set_cookie('jwt', token, httponly=True, samesite='None', secure=True)
                 return resp
             else:
                 return make_response({'message': 'Incorrect username or password'}, 401)
@@ -137,18 +103,31 @@ class UserById(Resource):
 api.add_resource(UserById, '/api/users/<uuid:id>')
 
 class Users(Resource):
-    def get(self):
-        users = User.query.all()
-        return make_response([user.to_dict() for user in users], 200)
     
     def post(self):
-        newUser = {k: v for k, v in request.json.items() if k!='password'}
+        json = request.json
         try:
-            user = User(**newUser)
-            user.password_hash = request.json['password']
+            user = User(
+                username = json['username'],
+                email = json['email'],
+                first_name = json['first_name'],
+                last_name = json['last_name'],
+                display_name = json['display_name'])
+            user.password_hash = json['password']
             db.session.add(user)
             db.session.commit()
-            return make_response(user.to_dict(), 201)
+            session['user_id'] = user.id
+            token = jwt.encode({
+                    'user_id': user.id,
+                    'exp': datetime.utcnow() + datetime.timedelta(hours=24)
+                }, os.environ.get('SECRET_KEY'), algorithm="HS256")
+            resp = make_response({'user':user.to_dict(),
+                                    'message': 'Login successful'}, 200)
+            resp.set_cookie('jwt', token, httponly=True, samesite='None', secure=True)
+            return resp
+        except ValueError as ve:
+            db.session.rollback()
+            return make_response({"message": str(ve)}, 422)
         except IntegrityError as ie:
             db.session.rollback()
             return make_response({"message": str(ie)}, 422)
