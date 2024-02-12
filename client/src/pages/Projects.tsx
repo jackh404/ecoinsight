@@ -7,6 +7,7 @@ import NewProjectForm from "../components/NewProjectForm.tsx";
 import Loading from "../components/Loading.tsx";
 
 const Projects = () => {
+  const server: string = import.meta.env.VITE_BACK_END_SERVER;
   const auth = useAuth()!;
   let projectDisplay = null;
   const handleSubmit = async (
@@ -16,7 +17,7 @@ const Projects = () => {
   ) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`api/projects`, {
+      const response = await axios.post(`${server}/projects`, {
         user_id: auth.user?.id,
         ...formData,
       });

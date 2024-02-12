@@ -8,10 +8,11 @@ import AccountEditForm from "../components/AccountEditForm.tsx";
 import { Recommendation, Project } from "../../types.ts";
 import Loading from "../components/Loading.tsx";
 const Dashboard = () => {
+  const server: string = import.meta.env.VITE_BACK_END_SERVER;
   const navigate = useNavigate();
   const handleAccountDelete = async () => {
     try {
-      await axios.delete(`api/users/${auth.user?.id}`);
+      await axios.delete(`${server}/users/${auth.user?.id}`);
       alert("Account deleted");
       auth.logout();
       navigate("/");

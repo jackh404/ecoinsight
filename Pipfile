@@ -16,10 +16,12 @@ Werkzeug = "*"
 flask-migrate = "*"
 flask-bcrypt = "*"
 pyjwt = "*"
+gunicorn = "*"
 
 [dev-packages]
 
 [requires]
+python_version = "3.9"
 python-dotenv = "*"
 psycopg2-binary = "*"
 requests = "*"

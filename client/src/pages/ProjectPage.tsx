@@ -5,13 +5,16 @@ import { useEffect, useState } from "react";
 import { Project, ProjectUpdate } from "../../types.ts";
 import NewProjectUpdateForm from "../components/NewProjectUpdateForm.tsx";
 import Loading from "../components/Loading.tsx";
+import { useAuth } from "../context/AuthContext.tsx";
 
 const ProjectPage = () => {
+  const auth = useAuth()!;
+  const server: string = import.meta.env.VITE_BACK_END_SERVER;
   const { id } = useParams();
   const [project, setProject] = useState({} as Project);
   const fetchProject = async () => {
     try {
-      const response = await axios.get(`/api/projects/${id}`);
+      const response = await axios.get(`${server}/projects/${id}`);
       console.log(response);
       setProject(response.data);
     } catch (error) {
@@ -24,7 +27,7 @@ const ProjectPage = () => {
   ) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`/api/project_updates`, {
+      const response = await axios.post(`${server}/project_updates`, {
         project_id: id,
         ...formData,
       });
@@ -65,19 +68,21 @@ const ProjectPage = () => {
             <img
               src={project.image}
               className="max-w-xl lg:max-w-3xl rounded-2xl shadow-xl"
-              alt={project.title}
+              alt={`${project.title} image`}
             />
           ) : null}
           <h1>{project.title}</h1>
           <h3>{project.goals}</h3>
           <p>{project.description}</p>
           <div>{updatesDisplay}</div>
-          <div>
-            <h2 className="mb-4">
-              Have an update? Let us know how it's going!
-            </h2>
-            <NewProjectUpdateForm handleSubmit={handleSubmit} />
-          </div>
+          {auth.user && auth.user.id == project.user_id ? (
+            <div>
+              <h2 className="mb-4">
+                Have an update? Let us know how it's going!
+              </h2>
+              <NewProjectUpdateForm handleSubmit={handleSubmit} />
+            </div>
+          ) : null}
         </>
       ) : (
         <Loading />

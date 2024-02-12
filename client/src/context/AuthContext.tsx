@@ -19,6 +19,7 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const server: string = import.meta.env.VITE_BACK_END_SERVER;
   const [isLoading, setIsLoading] = useState(true);
   const [auth, setAuth] = useState<{
     user: User | null;
@@ -32,7 +33,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIsLoading(true);
     let response;
     try {
-      response = await axios.get(`api/check_session`);
+      response = await axios.get(`${server}/check_session`);
       await login(response.data.user);
     } catch (error) {
       console.error(error);
@@ -43,7 +44,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = async () => {
     try {
-      await axios.delete(`api/logout`);
+      await axios.delete(`${server}/logout`);
     } catch (error) {
       console.error("Error logging out:, ", error);
     }

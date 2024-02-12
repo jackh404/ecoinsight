@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext.tsx";
 import { useState } from "react";
 import { FormData } from "../../types.ts";
 const AccountEditForm = ({ close }: { close: () => void }) => {
+  const server: string = import.meta.env.VITE_BACK_END_SERVER;
   const auth = useAuth()!;
   const [formData, setFormData] = useState<FormData>({
     username: auth.user?.username || "",
@@ -23,7 +24,7 @@ const AccountEditForm = ({ close }: { close: () => void }) => {
     try {
       console.log("Submitting form data:", formData);
       const response = await axios.patch(
-        `api/users/${auth.user?.id}`,
+        `${server}/users/${auth.user?.id}`,
         formData
       );
       auth.login(response.data.user);
