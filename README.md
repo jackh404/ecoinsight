@@ -25,12 +25,11 @@ Our main audience includes adults committed to reducing their environmental foot
 - Pipenv
 - Node.js
 - npm
+- Vercel CLI
 
 ### Installation
 
 #### Server
-
-Navigate to the `/server` directory.
 
 ```bash
 pipenv install
@@ -48,11 +47,13 @@ npm install
 
 #### Start Server
 
-Inside the /server directory.
+Inside the root directory.
 
 ```bash
-python app.py
+vercel dev
 ```
+
+Click the link in the terminal to finish the build. The server is now running, but the client will not update as you make changes and save. For that to work, you need to run `npm run dev` in the /client directory.
 
 #### Start Client
 
