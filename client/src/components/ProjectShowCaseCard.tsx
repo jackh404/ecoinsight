@@ -34,7 +34,7 @@ const ProjectShowCaseCard = (props: { project: Project }) => {
     lastUpdate = new Date(Math.max(...upDates)).toDateString();
   }
   return (
-    <div className="card w-[70%] md:w-[100%] hover:scale-105 bg-secondary">
+    <div className="card hover:scale-105 bg-secondary">
       <Link to={`/project/${props.project.id}`}>
         <figure>
           <img src={pickImage()} alt={title} className="rounded-t-2xl" />
