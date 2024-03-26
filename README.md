@@ -2,7 +2,7 @@
 
 ## Introduction
 
-EcoInsight is an innovative web application aimed at helping individuals reduce their environmental impact. Our platform integrates assessments, recommendation systems, and project tracking, supported by a strong community focus. Let's dive in!
+(https://ecoinsight.vercel.app/)[EcoInsight] is an innovative web application aimed at helping individuals reduce their environmental impact. Our platform integrates assessments, recommendation systems, and project tracking, supported by a strong community focus. Let's dive in!
 
 ## Key Features
 
