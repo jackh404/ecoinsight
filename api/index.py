@@ -39,23 +39,26 @@ api.add_resource(CheckSession, '/api/check_session')
     
 class Login(Resource):
     def post(self):
-        json = request.get_json()
-        user = User.query.filter(User.username == json['username']).first()
-        if user:
-            if user.authenticate(json['password']):
-                token = jwt.encode({
-                    'user_id': str(user.id),
-                    'exp': datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(hours=24)}, 
-                    SECRET_KEY,
-                    algorithm="HS256")
-                resp = make_response({'user':user.to_dict(),
-                                      'message': 'Login successful'}, 200)
-                resp.set_cookie('jwt', token, httponly=True, samesite='None', secure=True)
-                return resp
+        try:
+            json = request.get_json()
+            user = User.query.filter(User.username == json['username']).first()
+            if user:
+                if user.authenticate(json['password']):
+                    token = jwt.encode({
+                        'user_id': str(user.id),
+                        'exp': datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(hours=24)}, 
+                        SECRET_KEY,
+                        algorithm="HS256")
+                    resp = make_response({'user':user.to_dict(),
+                                        'message': 'Login successful'}, 200)
+                    resp.set_cookie('jwt', token, httponly=True, samesite='None', secure=True)
+                    return resp
+                else:
+                    return make_response({'message': 'Incorrect username or password'}, 401)
             else:
-                return make_response({'message': 'Incorrect username or password'}, 401)
-        else:
-            return {"message":"Incorrect username or password"}, 401
+                return {"message":"Incorrect username or password"}, 401
+        except Exception as e:
+            return make_response({"message": str(e)}, 500)
 api.add_resource(Login, '/api/login')
         
 class Logout(Resource):
@@ -116,15 +119,18 @@ class Users(Resource):
             user.password_hash = json['password']
             db.session.add(user)
             db.session.commit()
-            session['user_id'] = user.id
-            token = jwt.encode({
-                    'user_id': user.id,
-                    'exp': datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(hours=24)
-                }, os.environ.get('SECRET_KEY'), algorithm="HS256")
-            resp = make_response({'user':user.to_dict(),
-                                    'message': 'Login successful'}, 200)
-            resp.set_cookie('jwt', token, httponly=True, samesite='None', secure=True)
-            return resp
+            try:
+                token = jwt.encode({
+                            'user_id': str(user.id),
+                            'exp': datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(hours=24)}, 
+                            SECRET_KEY,
+                            algorithm="HS256")
+                resp = make_response({'user':user.to_dict(),
+                                            'message': 'Account created. Login successful'}, 200)
+                resp.set_cookie('jwt', token, httponly=True, samesite='None', secure=True)
+                return resp
+            except Exception as e:
+                return make_response({"message": "Account created. Login failed: "+str(e)}, 500)
         except ValueError as ve:
             db.session.rollback()
             return make_response({"message": str(ve)}, 422)
