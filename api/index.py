@@ -45,7 +45,7 @@ class Login(Resource):
             if user.authenticate(json['password']):
                 token = jwt.encode({
                     'user_id': str(user.id),
-                    'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)}, 
+                    'exp': datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=24)},
                     SECRET_KEY,
                     algorithm="HS256")
                 resp = make_response({'user':user.to_dict(),
