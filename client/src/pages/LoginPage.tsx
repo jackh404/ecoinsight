@@ -4,14 +4,17 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 
 import { useAuth } from "../context/AuthContext.tsx";
+import Loading from "../components/Loading.tsx";
 
 const LoginPage = () => {
   const server: string = import.meta.env.VITE_BACK_END_SERVER;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const auth = useAuth()!;
   const navigate = useNavigate();
   const handleSubmit = async (e: React.FormEvent) => {
+    setIsLoading(true);
     e.preventDefault();
     try {
       const response = await axios.post(`${server}/login`, {
@@ -21,16 +24,20 @@ const LoginPage = () => {
       auth.login(response.data.user);
       navigate("/dashboard");
     } catch (error: any) {
+      setIsLoading(false);
       console.error(error);
-      if (error.status == 401) {
-        alert("Invalid username or password");
-      } else {
-        alert("A server error occured, please try again.");
-      }
+      alert(`${error.response.status}: ${error.response.data.message}`);
     }
   };
   if (auth.isAuthenticated()) {
     return <h1>Welcome, {auth.user?.display_name}</h1>;
+  }
+  if (isLoading) {
+    return (
+      <div className="py-20">
+        <Loading message="Logging in" />
+      </div>
+    );
   }
   return (
     <div>
