@@ -22,7 +22,6 @@ const AccountEditForm = ({ close }: { close: () => void }) => {
       }
     }
     try {
-      console.log("Submitting form data:", formData);
       const response = await axios.patch(
         `${server}/users/${auth.user?.id}`,
         formData

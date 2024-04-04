@@ -21,7 +21,6 @@ const Projects = () => {
         user_id: auth.user?.id,
         ...formData,
       });
-      console.log(response);
       if (response.status >= 200 && response.status < 300) {
         resetForm();
         auth.login({

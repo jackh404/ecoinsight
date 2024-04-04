@@ -12,7 +12,6 @@ const ProjectShowcase = () => {
   const fetchProjects = async () => {
     try {
       const response = await axios.get(`${server}/projects`);
-      console.log(response);
       setProjects(response.data);
     } catch (error) {
       console.error(error);

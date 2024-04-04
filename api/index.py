@@ -69,33 +69,33 @@ class Logout(Resource):
 api.add_resource(Logout, '/api/logout')
 
 class UserById(Resource):
-    def get(self, id):
-        user = User.query.get(id)
-        if user:
-            return make_response(user.to_dict(), 200)
-        return make_response({"message": "User not found"}, 404)
     
     def patch(self, id):
         user = User.query.get(id)
+        token = request.cookies.get('jwt')
+        data = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
         if user:
-            allowed_keys = {'first_name', 'last_name', 'display_name', 'email', 'username'}
-            for key, value in request.json.items():
-                if key == 'password':
-                    user.password_hash = value
-                elif key in allowed_keys:
-                    setattr(user, key, value)
+            if str(id) == data['user_id']:
+                allowed_keys = {'first_name', 'last_name', 'display_name', 'email', 'username'}
+                for key, value in request.json.items():
+                    if key == 'password':
+                        user.password_hash = value
+                    elif key in allowed_keys:
+                        setattr(user, key, value)
 
-            db.session.commit()
-            return make_response({'user': user.to_dict(), 'message': 'User updated'}, 200)
-
-        return make_response({"message": "User not found"}, 404)
+                db.session.commit()
+                return make_response({'user': user.to_dict(), 'message': 'User updated'}, 200)
+            else:
+                return make_response({"message": "Unauthorized"}, 401)
+        else:
+            return make_response({"message": "User not found"}, 404)
     
     def delete(self, id):
         token = request.cookies.get('jwt')
         data = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
         user = User.query.get(id)
         if user:
-            if id == data['user_id']:
+            if str(id) == data['user_id']:
                 db.session.delete(user)
                 db.session.commit()
                 return make_response({"message": "User deleted"}, 204)

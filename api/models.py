@@ -64,7 +64,7 @@ class Project(db.Model, SerializerMixin):
     user = db.relationship('User', back_populates='projects')
     project_updates = db.relationship('ProjectUpdate', back_populates='project', cascade="all, delete-orphan")
     
-    serialize_rules = ('-user.projects','-project_updates.project','-user.energy_assessments','-user.recommendations',)
+    serialize_only = ('id', 'user_id', 'title', 'goals', 'description', 'category', 'image', 'created_at', 'completed_at', 'user.display_name','project_updates')
     
     @validates('title')
     def validates_title(self, key, title):
@@ -105,7 +105,7 @@ class Recommendation(db.Model, SerializerMixin):
     users = db.relationship('User', secondary=user_recomendations, back_populates='recommendations')
     question = db.relationship('EnergyAssessmentQuestion', back_populates='recommendation')
     
-    serialize_rules = ('-users.recommendations','-question.recommendation','-projects','-energy_assessments')
+    serialize_only = ('title','text')
     
 class EnergyAssessment(db.Model, SerializerMixin):
     __tablename__ = 'energy_assessments'
@@ -156,7 +156,7 @@ class EnergyAssessmentQuestion (db.Model, SerializerMixin):
     
     recommendation = db.relationship('Recommendation', back_populates='question', cascade="all, delete-orphan")
         
-    serialize_rules = ('-recommendation.question','-users')
+    serialize_rules = ('-recommendation','-users')
     
     def __repr__(self):
         return f'<EnergyAssessmentQuestion id={self.id} short={self.short}>'

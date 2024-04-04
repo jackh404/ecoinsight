@@ -15,7 +15,6 @@ const ProjectPage = () => {
   const fetchProject = async () => {
     try {
       const response = await axios.get(`${server}/projects/${id}`);
-      console.log(response);
       setProject(response.data);
     } catch (error) {
       console.error(error);
@@ -27,11 +26,10 @@ const ProjectPage = () => {
   ) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${server}/project_updates`, {
+      await axios.post(`${server}/project_updates`, {
         project_id: id,
         ...formData,
       });
-      console.log(response);
     } catch (error) {
       console.error(error);
     }
